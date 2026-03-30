@@ -1,0 +1,1724 @@
+<!DOCTYPE html>
+<!-- saved from url=(0070)file:///C:/Users/gaon4/Downloads/japanese_learning_app_500words_1.html -->
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌸 일본어 공부 앱</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap');
+
+:root {
+  --pink: #ffb7c5; --pink-light: #ffe4ec; --pink-dark: #e8829a;
+  --purple: #c9b8f5; --purple-light: #ede8ff;
+  --mint: #b8f0e6; --mint-light: #e4fdf8;
+  --yellow: #ffeaa7; --yellow-light: #fffbe6;
+  --bg: #fff9fb; --text: #3d2c3e; --text-light: #8a7590;
+  --shadow: 0 4px 20px rgba(200,150,170,0.15);
+  --shadow-hover: 0 8px 30px rgba(200,150,170,0.3);
+  --radius: 20px; --radius-sm: 12px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Noto Sans KR', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; }
+
+/* ── HEADER ── */
+header {
+  background: linear-gradient(135deg, #ffb7c5 0%, #c9b8f5 50%, #b8f0e6 100%);
+  padding: 18px 20px 14px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+header::before {
+  content: '🌸🌺🌸🌺🌸🌺🌸🌺🌸🌺🌸';
+  position: absolute; top: 4px; left: 0; right: 0;
+  font-size: 14px; opacity: 0.4; letter-spacing: 2px;
+}
+header h1 { font-size: 24px; font-weight: 700; color: white; text-shadow: 0 2px 8px rgba(180,100,130,0.3); letter-spacing: 2px; position: relative; }
+header p { color: rgba(255,255,255,0.85); font-size: 12px; margin-top: 3px; position: relative; }
+
+/* ── LEVEL BADGE IN HEADER ── */
+.header-level-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.92);
+  border-radius: 50px;
+  padding: 5px 14px;
+  margin-top: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--pink-dark);
+  position: relative;
+  box-shadow: 0 2px 10px rgba(200,100,140,0.2);
+}
+.header-level-badge .lv-num { color: #6b3fa0; }
+.header-progress-wrap {
+  height: 5px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 50px;
+  margin-top: 6px;
+  overflow: hidden;
+  width: 180px;
+  margin-left: auto; margin-right: auto;
+  position: relative;
+}
+.header-progress-fill {
+  height: 100%;
+  background: rgba(255,255,255,0.85);
+  border-radius: 50px;
+  transition: width 0.5s ease;
+}
+
+/* ── NAV ── */
+nav {
+  display: flex;
+  background: white;
+  box-shadow: 0 2px 12px rgba(200,150,170,0.12);
+  overflow-x: auto; scrollbar-width: none;
+  position: sticky; top: 0; z-index: 100;
+}
+nav::-webkit-scrollbar { display: none; }
+.nav-btn {
+  flex: 1; min-width: 64px;
+  padding: 12px 6px;
+  border: none; background: transparent; cursor: pointer;
+  font-family: inherit; font-size: 11px; font-weight: 500;
+  color: var(--text-light); transition: all 0.25s;
+  display: flex; flex-direction: column; align-items: center; gap: 3px;
+  border-bottom: 3px solid transparent; white-space: nowrap;
+}
+.nav-btn .icon { font-size: 18px; }
+.nav-btn.active { color: var(--pink-dark); border-bottom-color: var(--pink-dark); background: var(--pink-light); }
+.nav-btn:hover:not(.active) { background: #fdf5f7; color: var(--text); }
+
+/* ── MAIN ── */
+main { padding: 20px 16px 50px; max-width: 700px; margin: 0 auto; }
+.section { display: none; animation: fadeIn 0.3s ease; }
+.section.active { display: block; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.section-title { font-size: 17px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+
+/* ── STUDY LEVEL SELECTOR BAR ── */
+.study-level-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  padding: 10px 14px;
+  background: white;
+  border-radius: var(--radius-sm);
+  box-shadow: var(--shadow);
+  overflow-x: auto; scrollbar-width: none;
+}
+.study-level-bar::-webkit-scrollbar { display: none; }
+.study-level-label { font-size: 11px; font-weight: 600; color: var(--text-light); white-space: nowrap; }
+.slv-btn {
+  flex-shrink: 0;
+  padding: 5px 12px;
+  border-radius: 50px;
+  font-family: inherit; font-size: 11px; font-weight: 600;
+  cursor: pointer; border: 2px solid transparent;
+  transition: all 0.2s;
+}
+.slv-btn.locked { background: #f0eef4; color: #ccc; cursor: not-allowed; border-color: #e8e4f0; }
+.slv-btn.unlocked { background: var(--purple-light); color: #6b3fa0; border-color: var(--purple); }
+.slv-btn.active-lv { background: var(--purple); color: white; }
+
+/* ══════════════════════════
+   LEVEL OVERVIEW SECTION
+══════════════════════════ */
+.level-grid { display: flex; flex-direction: column; gap: 14px; }
+.level-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 18px;
+  box-shadow: var(--shadow);
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+  border: 2px solid transparent;
+}
+.level-card.unlocked { cursor: pointer; }
+.level-card.unlocked:hover { transform: translateY(-2px); box-shadow: var(--shadow-hover); }
+.level-card.cleared { border-color: #a8d8a8; }
+.level-card.active-level { border-color: var(--purple); }
+.level-card.locked { opacity: 0.55; }
+.level-card-bg {
+  position: absolute; top: 0; right: -20px;
+  font-size: 80px; opacity: 0.08; pointer-events: none;
+  line-height: 1; transform: rotate(-15deg);
+}
+.level-card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 10px; }
+.level-emoji { font-size: 28px; flex-shrink: 0; }
+.level-info { flex: 1; min-width: 0; }
+.level-num {
+  font-size: 11px; font-weight: 700; letter-spacing: 1px;
+  color: var(--text-light); margin-bottom: 2px; text-transform: uppercase;
+}
+.level-name { font-size: 17px; font-weight: 700; color: var(--text); }
+.level-sub { font-size: 12px; color: var(--text-light); margin-top: 2px; }
+.level-status {
+  flex-shrink: 0;
+  padding: 4px 12px;
+  border-radius: 50px;
+  font-size: 11px; font-weight: 700;
+}
+.status-locked { background: #f0eef4; color: #bbb; }
+.status-unlocked { background: var(--yellow-light); color: #b8860b; }
+.status-cleared { background: #e8f5e9; color: #2e7d32; }
+.status-current { background: var(--purple-light); color: #6b3fa0; }
+
+/* level progress bar */
+.level-prog-row { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.level-prog-bar { flex: 1; height: 7px; background: #f0eef4; border-radius: 50px; overflow: hidden; }
+.level-prog-fill { height: 100%; border-radius: 50px; transition: width 0.5s ease; }
+.level-prog-text { font-size: 11px; color: var(--text-light); white-space: nowrap; }
+
+/* level details row */
+.level-details { display: flex; gap: 16px; margin-top: 8px; }
+.level-detail-item { font-size: 12px; color: var(--text-light); display: flex; align-items: center; gap: 4px; }
+.level-detail-item span { font-weight: 600; color: var(--text); }
+
+/* start button */
+.btn-start-level {
+  display: block; width: 100%; margin-top: 12px;
+  padding: 11px;
+  border-radius: 50px;
+  border: none;
+  font-family: inherit; font-size: 13px; font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: white;
+  box-shadow: 0 4px 15px rgba(200,150,200,0.35);
+}
+.btn-start-level:hover { transform: translateY(-2px); }
+
+/* ══════════════════════════
+   KANA SECTION
+══════════════════════════ */
+.kana-tabs { display: flex; gap: 8px; margin-bottom: 16px; flex-wrap: wrap; }
+.kana-tab {
+  padding: 7px 18px; border-radius: 50px;
+  border: 2px solid var(--pink); background: white;
+  cursor: pointer; font-family: inherit; font-size: 13px; font-weight: 500;
+  color: var(--pink-dark); transition: all 0.2s;
+}
+.kana-tab.active { background: var(--pink); color: white; }
+.kana-group-label {
+  font-size: 11px; font-weight: 700; color: var(--text-light);
+  letter-spacing: 1px; text-transform: uppercase;
+  margin: 14px 0 8px;
+  padding: 4px 10px;
+  background: var(--yellow-light);
+  border-radius: 6px;
+  display: inline-block;
+}
+.kana-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(66px, 1fr));
+  gap: 8px; margin-bottom: 8px;
+}
+.kana-card {
+  background: white; border-radius: var(--radius-sm);
+  padding: 10px 4px; text-align: center; box-shadow: var(--shadow);
+  cursor: pointer; transition: all 0.25s; border: 2px solid transparent;
+}
+.kana-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); border-color: var(--pink); }
+.kana-card.revealed { background: var(--pink-light); border-color: var(--pink); }
+.kana-char { font-family: 'Noto Sans JP', sans-serif; font-size: 24px; font-weight: 500; color: var(--text); display: block; }
+.kana-roman { font-size: 10px; color: var(--text-light); margin-top: 3px; transition: all 0.2s; }
+.kana-card:not(.revealed) .kana-roman { opacity: 0; transform: translateY(4px); }
+.kana-card.revealed .kana-roman { opacity: 1; color: var(--pink-dark); font-weight: 600; transform: translateY(0); }
+.kana-hint { font-size: 12px; color: var(--text-light); margin-bottom: 10px; text-align: center; }
+.btn-reveal-all {
+  display: block; width: 100%; padding: 11px;
+  border-radius: 50px; border: 2px solid var(--pink);
+  background: white; color: var(--pink-dark);
+  font-family: inherit; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; margin-top: 8px;
+}
+.btn-reveal-all:hover { background: var(--pink); color: white; }
+
+/* ══════════════════════════
+   FLASHCARD SECTION
+══════════════════════════ */
+.flashcard-wrap {
+  perspective: 1000px; margin: 0 auto 20px;
+  max-width: 400px; height: 210px; cursor: pointer;
+}
+.flashcard-inner {
+  width: 100%; height: 100%; position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
+}
+.flashcard-inner.flipped { transform: rotateY(180deg); }
+.flashcard-face {
+  position: absolute; inset: 0; border-radius: var(--radius);
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  backface-visibility: hidden; box-shadow: var(--shadow-hover); padding: 20px;
+}
+.flashcard-front { background: linear-gradient(135deg, #fff0f5, #ffe8f5); border: 2px solid var(--pink); }
+.flashcard-back { background: linear-gradient(135deg, #f0f0ff, #e8e8ff); border: 2px solid var(--purple); transform: rotateY(180deg); }
+.fc-jp { font-family: 'Noto Sans JP', sans-serif; font-size: 38px; font-weight: 500; color: var(--text); }
+.fc-reading { font-size: 15px; color: var(--text-light); margin-top: 5px; }
+.fc-meaning { font-size: 26px; font-weight: 700; color: #6b5be6; }
+.fc-example { font-size: 12px; color: var(--text-light); margin-top: 7px; text-align: center; line-height: 1.6; }
+.fc-hint { font-size: 11px; color: var(--pink-dark); margin-top: 10px; opacity: 0.7; }
+.fc-level-tag {
+  position: absolute; top: 10px; right: 12px;
+  font-size: 10px; font-weight: 700;
+  background: rgba(200,150,200,0.15); color: var(--text-light);
+  padding: 2px 7px; border-radius: 20px;
+}
+.fc-controls { display: flex; align-items: center; gap: 12px; justify-content: center; }
+.fc-counter { font-size: 13px; color: var(--text-light); min-width: 60px; text-align: center; }
+.btn-icon {
+  width: 44px; height: 44px; border-radius: 50%; border: none;
+  cursor: pointer; font-size: 18px; transition: all 0.2s;
+  display: flex; align-items: center; justify-content: center;
+}
+.btn-prev { background: var(--purple-light); color: var(--purple); }
+.btn-next { background: var(--pink-light); color: var(--pink-dark); }
+.btn-prev:hover { background: var(--purple); color: white; transform: scale(1.1); }
+.btn-next:hover { background: var(--pink); color: white; transform: scale(1.1); }
+.fc-shuffle-row { display: flex; gap: 8px; justify-content: center; margin-top: 10px; }
+.btn-shuffle {
+  padding: 9px 20px; border-radius: 50px;
+  border: 2px solid var(--mint); background: var(--mint-light);
+  color: #2a9d8f; font-family: inherit; font-size: 13px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+}
+.btn-shuffle:hover { background: var(--mint); color: white; }
+.btn-all-levels {
+  padding: 9px 20px; border-radius: 50px;
+  border: 2px solid var(--yellow); background: var(--yellow-light);
+  color: #b8860b; font-family: inherit; font-size: 12px; font-weight: 600;
+  cursor: pointer; transition: all 0.2s;
+}
+.btn-all-levels:hover { background: var(--yellow); color: #7a5800; }
+
+/* ══════════════════════════
+   QUIZ SECTION
+══════════════════════════ */
+.quiz-meta { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.quiz-score {
+  background: var(--yellow-light); border: 2px solid var(--yellow);
+  border-radius: 50px; padding: 5px 14px;
+  font-size: 13px; font-weight: 600; color: #b8860b;
+}
+.quiz-pass-indicator {
+  font-size: 11px; color: var(--text-light);
+  background: #f0eef4; border-radius: 50px; padding: 4px 10px;
+}
+.quiz-pass-indicator.reachable { color: #2a9d8f; background: var(--mint-light); }
+.quiz-progress-bar { height: 7px; background: #f0e8f0; border-radius: 50px; margin-bottom: 18px; overflow: hidden; }
+.quiz-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--pink), var(--purple));
+  border-radius: 50px; transition: width 0.4s ease;
+}
+.quiz-question-box {
+  background: linear-gradient(135deg, #fff0f5, #f5f0ff);
+  border-radius: var(--radius); padding: 24px 20px;
+  text-align: center; margin-bottom: 18px;
+  box-shadow: var(--shadow); border: 2px solid var(--pink-light);
+}
+.quiz-label { font-size: 11px; color: var(--text-light); margin-bottom: 7px; }
+.quiz-question-jp { font-family: 'Noto Sans JP', sans-serif; font-size: 40px; font-weight: 500; color: var(--text); }
+.quiz-question-sub { font-size: 13px; color: var(--text-light); margin-top: 5px; }
+.quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 16px; }
+.quiz-opt {
+  padding: 14px 10px; border-radius: var(--radius-sm);
+  border: 2px solid #e8e0ee; background: white;
+  cursor: pointer; font-family: inherit; font-size: 14px; font-weight: 500;
+  color: var(--text); transition: all 0.2s; text-align: center; line-height: 1.4;
+}
+.quiz-opt:hover:not(:disabled) { border-color: var(--purple); background: var(--purple-light); transform: translateY(-2px); box-shadow: var(--shadow); }
+.quiz-opt.correct { border-color: #4caf50; background: #f0fff0; color: #2e7d32; }
+.quiz-opt.wrong { border-color: #ef5350; background: #fff0f0; color: #c62828; }
+.quiz-opt:disabled { cursor: default; }
+.quiz-feedback {
+  text-align: center; padding: 10px; border-radius: var(--radius-sm);
+  font-size: 14px; font-weight: 600; margin-bottom: 14px; min-height: 40px;
+}
+.quiz-feedback.correct { background: #f0fff0; color: #2e7d32; }
+.quiz-feedback.wrong { background: #fff0f0; color: #c62828; }
+.btn-next-q {
+  display: block; width: 100%; padding: 13px;
+  border-radius: 50px; border: none;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: white; font-family: inherit; font-size: 14px; font-weight: 700;
+  cursor: pointer; transition: all 0.2s;
+  box-shadow: 0 4px 15px rgba(200,150,200,0.4);
+}
+.btn-next-q:hover { transform: translateY(-2px); }
+.btn-next-q:disabled { opacity: 0.45; cursor: default; transform: none; }
+
+/* quiz result */
+.quiz-result { text-align: center; padding: 28px 20px; background: linear-gradient(135deg, #fff0f5, #f5f0ff); border-radius: var(--radius); box-shadow: var(--shadow); }
+.quiz-result .emoji { font-size: 56px; margin-bottom: 10px; }
+.quiz-result h3 { font-size: 20px; margin-bottom: 6px; }
+.quiz-result .final-score { font-size: 38px; font-weight: 700; color: var(--pink-dark); margin: 10px 0; }
+.quiz-result p { color: var(--text-light); margin-bottom: 8px; font-size: 14px; }
+.level-clear-banner {
+  background: linear-gradient(135deg, #fffbe6, #fff0c0);
+  border: 2px solid #ffe566;
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  margin: 12px 0;
+  font-size: 14px;
+  font-weight: 700;
+  color: #7a5800;
+}
+.quiz-result-btns { display: flex; gap: 10px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
+.btn-restart {
+  padding: 12px 28px; border-radius: 50px; border: none;
+  background: linear-gradient(135deg, var(--pink), var(--purple));
+  color: white; font-family: inherit; font-size: 14px; font-weight: 700;
+  cursor: pointer; box-shadow: 0 4px 15px rgba(200,150,200,0.4); transition: all 0.2s;
+}
+.btn-restart:hover { transform: translateY(-2px); }
+.btn-next-level {
+  padding: 12px 28px; border-radius: 50px; border: none;
+  background: linear-gradient(135deg, #ffe566, #ffb700);
+  color: #6b4400; font-family: inherit; font-size: 14px; font-weight: 700;
+  cursor: pointer; box-shadow: 0 4px 15px rgba(200,160,0,0.3); transition: all 0.2s;
+}
+.btn-next-level:hover { transform: translateY(-2px); }
+
+/* ══════════════════════════
+   CONVERSATION SECTION
+══════════════════════════ */
+.conv-category-tabs {
+  display: flex; gap: 8px; margin-bottom: 14px;
+  overflow-x: auto; scrollbar-width: none; padding-bottom: 4px;
+}
+.conv-category-tabs::-webkit-scrollbar { display: none; }
+.conv-cat-btn {
+  flex-shrink: 0; padding: 6px 14px; border-radius: 50px;
+  border: 2px solid var(--mint); background: white;
+  cursor: pointer; font-family: inherit; font-size: 12px; font-weight: 500;
+  color: #2a9d8f; transition: all 0.2s; white-space: nowrap;
+}
+.conv-cat-btn.active { background: var(--mint); color: #1a6b60; }
+.conv-cat-btn:hover:not(.active) { background: var(--mint-light); }
+.phrase-list { display: flex; flex-direction: column; gap: 10px; }
+.phrase-card {
+  background: white; border-radius: var(--radius-sm); padding: 14px;
+  box-shadow: var(--shadow); border-left: 4px solid var(--mint);
+  transition: all 0.2s; cursor: pointer; position: relative;
+}
+.phrase-card:hover { transform: translateX(4px); box-shadow: var(--shadow-hover); border-left-color: var(--pink-dark); }
+.phrase-lv-tag {
+  position: absolute; top: 10px; right: 10px;
+  font-size: 10px; font-weight: 700; color: var(--text-light);
+  background: #f5f0f8; padding: 2px 7px; border-radius: 10px;
+}
+.phrase-jp { font-family: 'Noto Sans JP', sans-serif; font-size: 18px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+.phrase-reading { font-size: 11px; color: var(--text-light); margin-bottom: 5px; }
+.phrase-kr { font-size: 13px; font-weight: 600; color: #2a9d8f; }
+.phrase-note { font-size: 11px; color: var(--text-light); margin-top: 3px; font-style: italic; }
+.speak-icon { float: right; font-size: 16px; opacity: 0.45; margin-top: 2px; margin-right: 24px; }
+
+/* scrollbar */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-thumb { background: var(--pink); border-radius: 3px; }
+
+/* responsive */
+@media (max-width: 400px) {
+  .quiz-options { grid-template-columns: 1fr; }
+  .fc-jp, .quiz-question-jp { font-size: 32px; }
+}
+
+/* toast */
+#toast {
+  position: fixed; bottom: 20px; left: 50%;
+  transform: translateX(-50%) translateY(70px);
+  background: rgba(60,30,60,0.92); color: white;
+  padding: 11px 22px; border-radius: 50px;
+  font-size: 13px; font-weight: 600;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease; z-index: 999; white-space: nowrap;
+}
+#toast.show { transform: translateX(-50%) translateY(0); }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🌸 日本語 공부</h1>
+  <p>단계별로 차근차근 배워요!</p>
+  <div class="header-level-badge" id="headerBadge">
+    <span id="headerLvEmoji">🌱</span>
+    <span id="headerLvText">1단계 · 입문</span>
+  </div>
+  <div class="header-progress-wrap">
+    <div class="header-progress-fill" id="headerProgressFill" style="width:0%"></div>
+  </div>
+</header>
+
+<nav>
+  <button class="nav-btn active" onclick="showSection(&#39;levelMap&#39;, this)">
+    <span class="icon">🎯</span>레벨
+  </button>
+  <button class="nav-btn" onclick="showSection(&#39;kana&#39;, this)">
+    <span class="icon">あ</span>가나
+  </button>
+  <button class="nav-btn" onclick="showSection(&#39;flashcard&#39;, this)">
+    <span class="icon">🃏</span>카드
+  </button>
+  <button class="nav-btn" onclick="showSection(&#39;quiz&#39;, this)">
+    <span class="icon">✏️</span>퀴즈
+  </button>
+  <button class="nav-btn" onclick="showSection(&#39;conv&#39;, this)">
+    <span class="icon">💬</span>회화
+  </button>
+</nav>
+
+<main>
+
+  <!-- ① LEVEL MAP -->
+  <section id="levelMap" class="section active">
+    <div class="section-title">🎯 나의 학습 단계</div>
+    <div class="level-grid" id="levelGrid"><div class="level-card unlocked active-level">
+      <div class="level-card-bg">🌱</div>
+      <div class="level-card-header">
+        <div class="level-emoji">🌱</div>
+        <div class="level-info">
+          <div class="level-num">1단계</div>
+          <div class="level-name">입문</div>
+          <div class="level-sub">히라가나 기초 &amp; 초간단 단어</div>
+        </div>
+        <div class="level-status status-current">
+          현재
+        </div>
+      </div>
+      
+      <div class="level-details">
+        <div class="level-detail-item">단어 <span>100개</span></div>
+        <div class="level-detail-item">회화 <span>6개</span></div>
+        <div class="level-detail-item">최고점 <span>0/10</span></div>
+      </div>
+      <div class="level-prog-row">
+        <div class="level-prog-bar">
+          <div class="level-prog-fill" style="width:0%;background:#ffb7c5"></div>
+        </div>
+        <div class="level-prog-text">0/10점</div>
+      </div>
+      <button class="btn-start-level" onclick="goStudyLevel(1)" style="background:linear-gradient(135deg,#ffb7c5,#ffd6e0);color:#3d2c3e">
+        지금 공부하기 →
+      </button>
+      
+    </div><div class="level-card locked">
+      <div class="level-card-bg">🌿</div>
+      <div class="level-card-header">
+        <div class="level-emoji">🔒</div>
+        <div class="level-info">
+          <div class="level-num">2단계</div>
+          <div class="level-name">초급</div>
+          <div class="level-sub">일상 사물 단어 &amp; 기초 인사말</div>
+        </div>
+        <div class="level-status status-locked">
+          잠김
+        </div>
+      </div>
+      
+    </div><div class="level-card locked">
+      <div class="level-card-bg">🌸</div>
+      <div class="level-card-header">
+        <div class="level-emoji">🔒</div>
+        <div class="level-info">
+          <div class="level-num">3단계</div>
+          <div class="level-name">초중급</div>
+          <div class="level-sub">생활 어휘 &amp; 짧은 문장</div>
+        </div>
+        <div class="level-status status-locked">
+          잠김
+        </div>
+      </div>
+      
+    </div><div class="level-card locked">
+      <div class="level-card-bg">🌺</div>
+      <div class="level-card-header">
+        <div class="level-emoji">🔒</div>
+        <div class="level-info">
+          <div class="level-num">4단계</div>
+          <div class="level-name">중급</div>
+          <div class="level-sub">다양한 어휘 &amp; 기본 회화</div>
+        </div>
+        <div class="level-status status-locked">
+          잠김
+        </div>
+      </div>
+      
+    </div><div class="level-card locked">
+      <div class="level-card-bg">🎌</div>
+      <div class="level-card-header">
+        <div class="level-emoji">🔒</div>
+        <div class="level-info">
+          <div class="level-num">5단계</div>
+          <div class="level-name">고급</div>
+          <div class="level-sub">복잡한 문장 &amp; 실전 표현</div>
+        </div>
+        <div class="level-status status-locked">
+          잠김
+        </div>
+      </div>
+      
+    </div></div>
+  </section>
+
+  <!-- ② KANA -->
+  <section id="kana" class="section">
+    <div class="section-title">📖 히라가나 / 카타카나</div>
+    <div id="kanaLevelBar" class="study-level-bar"></div>
+    <div class="kana-tabs">
+      <button class="kana-tab active" onclick="switchKana(&#39;hiragana&#39;, this)">히라가나</button>
+      <button class="kana-tab" onclick="switchKana(&#39;katakana&#39;, this)">카타카나</button>
+    </div>
+    <p class="kana-hint">카드를 클릭하면 읽는 법이 나타나요 👆</p>
+    <div id="kanaContent"></div>
+    <button class="btn-reveal-all" onclick="toggleRevealAll()">모두 보기 / 숨기기</button>
+  </section>
+
+  <!-- ③ FLASHCARD -->
+  <section id="flashcard" class="section">
+    <div class="section-title">🃏 플래시 카드</div>
+    <div id="fcLevelBar" class="study-level-bar"></div>
+    <div class="flashcard-wrap" onclick="flipCard()">
+      <div class="flashcard-inner" id="flashcardInner">
+        <div class="flashcard-face flashcard-front">
+          <div class="fc-level-tag" id="fcLevelTag">1단계</div>
+          <div class="fc-jp" id="fcJp">ねこ</div>
+          <div class="fc-reading" id="fcReading">neko</div>
+          <div class="fc-hint">카드를 클릭해 뜻을 확인 →</div>
+        </div>
+        <div class="flashcard-face flashcard-back">
+          <div class="fc-level-tag" id="fcLevelTagBack">1단계</div>
+          <div class="fc-meaning" id="fcMeaning">고양이</div>
+          <div class="fc-example" id="fcExample">ねこがいます。<br>고양이가 있어요.</div>
+        </div>
+      </div>
+    </div>
+    <div class="fc-controls">
+      <button class="btn-icon btn-prev" onclick="event.stopPropagation();prevCard()">◀</button>
+      <div class="fc-counter" id="fcCounter">1 / 10</div>
+      <button class="btn-icon btn-next" onclick="event.stopPropagation();nextCard()">▶</button>
+    </div>
+    <div class="fc-shuffle-row">
+      <button class="btn-shuffle" onclick="shuffleFlashcards()">🔀 섞기</button>
+      <button class="btn-all-levels" onclick="toggleAllLevels()">모든 단계 보기</button>
+    </div>
+  </section>
+
+  <!-- ④ QUIZ -->
+  <section id="quiz" class="section">
+    <div class="section-title">✏️ 퀴즈</div>
+    <div id="quizLevelBar" class="study-level-bar"></div>
+    <div class="quiz-meta">
+      <div class="quiz-score" id="quizScore">점수: 0</div>
+      <div class="quiz-pass-indicator" id="quizPassInd">7점 이상 → 다음 단계!</div>
+    </div>
+    <div class="quiz-progress-bar">
+      <div class="quiz-progress-fill" id="quizProgressFill" style="width:0%"></div>
+    </div>
+    <div id="quizGame">
+      <div class="quiz-question-box">
+        <div class="quiz-label" id="quizLabel">다음 일본어의 뜻은?</div>
+        <div class="quiz-question-jp" id="quizQuestion">ねこ</div>
+        <div class="quiz-question-sub" id="quizQuestionSub">neko</div>
+      </div>
+      <div class="quiz-options" id="quizOptions"></div>
+      <div class="quiz-feedback" id="quizFeedback"></div>
+      <button class="btn-next-q" id="btnNextQ" onclick="nextQuestion()" disabled="">다음 문제 →</button>
+    </div>
+    <div id="quizResult" style="display:none"></div>
+  </section>
+
+  <!-- ⑤ CONVERSATION -->
+  <section id="conv" class="section">
+    <div class="section-title">💬 회화 표현</div>
+    <div id="convLevelBar" class="study-level-bar"></div>
+    <div class="conv-category-tabs" id="convCatTabs"></div>
+    <div class="phrase-list" id="phraseList"></div>
+  </section>
+
+</main>
+
+<div id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════════
+// LEVEL DATA
+// ═══════════════════════════════════════════════════
+const LEVEL_META = [
+  { id:1, name:'입문',  subtitle:'히라가나 기초 & 초간단 단어', emoji:'🌱', color:'#ffb7c5', grad:'linear-gradient(135deg,#ffb7c5,#ffd6e0)' },
+  { id:2, name:'초급',  subtitle:'일상 사물 단어 & 기초 인사말', emoji:'🌿', color:'#b8f0e6', grad:'linear-gradient(135deg,#b8f0e6,#d4f8f0)' },
+  { id:3, name:'초중급',subtitle:'생활 어휘 & 짧은 문장',       emoji:'🌸', color:'#c9b8f5', grad:'linear-gradient(135deg,#c9b8f5,#ddd0ff)' },
+  { id:4, name:'중급',  subtitle:'다양한 어휘 & 기본 회화',     emoji:'🌺', color:'#ffeaa7', grad:'linear-gradient(135deg,#ffeaa7,#fff3cc)' },
+  { id:5, name:'고급',  subtitle:'복잡한 문장 & 실전 표현',     emoji:'🎌', color:'#ffb399', grad:'linear-gradient(135deg,#ffb399,#ffd4c2)' },
+];
+
+// ── KANA GROUPS (per level, hiragana only; katakana mapped separately)
+const KANA_GROUPS = [
+  { lv:1, label:'あ행·か행·さ행',
+    hira:[ {c:'あ',r:'a'},{c:'い',r:'i'},{c:'う',r:'u'},{c:'え',r:'e'},{c:'お',r:'o'},
+           {c:'か',r:'ka'},{c:'き',r:'ki'},{c:'く',r:'ku'},{c:'け',r:'ke'},{c:'こ',r:'ko'},
+           {c:'さ',r:'sa'},{c:'し',r:'shi'},{c:'す',r:'su'},{c:'せ',r:'se'},{c:'そ',r:'so'} ],
+    kata:[ {c:'ア',r:'a'},{c:'イ',r:'i'},{c:'ウ',r:'u'},{c:'エ',r:'e'},{c:'オ',r:'o'},
+           {c:'カ',r:'ka'},{c:'キ',r:'ki'},{c:'ク',r:'ku'},{c:'ケ',r:'ke'},{c:'コ',r:'ko'},
+           {c:'サ',r:'sa'},{c:'シ',r:'shi'},{c:'ス',r:'su'},{c:'セ',r:'se'},{c:'ソ',r:'so'} ] },
+  { lv:2, label:'た행·な행·は행',
+    hira:[ {c:'た',r:'ta'},{c:'ち',r:'chi'},{c:'つ',r:'tsu'},{c:'て',r:'te'},{c:'と',r:'to'},
+           {c:'な',r:'na'},{c:'に',r:'ni'},{c:'ぬ',r:'nu'},{c:'ね',r:'ne'},{c:'の',r:'no'},
+           {c:'は',r:'ha'},{c:'ひ',r:'hi'},{c:'ふ',r:'fu'},{c:'へ',r:'he'},{c:'ほ',r:'ho'} ],
+    kata:[ {c:'タ',r:'ta'},{c:'チ',r:'chi'},{c:'ツ',r:'tsu'},{c:'テ',r:'te'},{c:'ト',r:'to'},
+           {c:'ナ',r:'na'},{c:'ニ',r:'ni'},{c:'ヌ',r:'nu'},{c:'ネ',r:'ne'},{c:'ノ',r:'no'},
+           {c:'ハ',r:'ha'},{c:'ヒ',r:'hi'},{c:'フ',r:'fu'},{c:'ヘ',r:'he'},{c:'ホ',r:'ho'} ] },
+  { lv:3, label:'ま행·야행·ら행·わ행',
+    hira:[ {c:'ま',r:'ma'},{c:'み',r:'mi'},{c:'む',r:'mu'},{c:'め',r:'me'},{c:'も',r:'mo'},
+           {c:'や',r:'ya'},{c:'ゆ',r:'yu'},{c:'よ',r:'yo'},
+           {c:'ら',r:'ra'},{c:'り',r:'ri'},{c:'る',r:'ru'},{c:'れ',r:'re'},{c:'ろ',r:'ro'},
+           {c:'わ',r:'wa'},{c:'を',r:'wo'},{c:'ん',r:'n'} ],
+    kata:[ {c:'マ',r:'ma'},{c:'ミ',r:'mi'},{c:'ム',r:'mu'},{c:'メ',r:'me'},{c:'モ',r:'mo'},
+           {c:'ヤ',r:'ya'},{c:'ユ',r:'yu'},{c:'ヨ',r:'yo'},
+           {c:'ラ',r:'ra'},{c:'リ',r:'ri'},{c:'ル',r:'ru'},{c:'レ',r:'re'},{c:'ロ',r:'ro'},
+           {c:'ワ',r:'wa'},{c:'ヲ',r:'wo'},{c:'ン',r:'n'} ] },
+  { lv:4, label:'が행·ざ행·だ행·ば행',
+    hira:[ {c:'が',r:'ga'},{c:'ぎ',r:'gi'},{c:'ぐ',r:'gu'},{c:'げ',r:'ge'},{c:'ご',r:'go'},
+           {c:'ざ',r:'za'},{c:'じ',r:'ji'},{c:'ず',r:'zu'},{c:'ぜ',r:'ze'},{c:'ぞ',r:'zo'},
+           {c:'だ',r:'da'},{c:'で',r:'de'},{c:'ど',r:'do'},
+           {c:'ば',r:'ba'},{c:'び',r:'bi'},{c:'ぶ',r:'bu'},{c:'べ',r:'be'},{c:'ぼ',r:'bo'} ],
+    kata:[ {c:'ガ',r:'ga'},{c:'ギ',r:'gi'},{c:'グ',r:'gu'},{c:'ゲ',r:'ge'},{c:'ゴ',r:'go'},
+           {c:'ザ',r:'za'},{c:'ジ',r:'ji'},{c:'ズ',r:'zu'},{c:'ゼ',r:'ze'},{c:'ゾ',r:'zo'},
+           {c:'ダ',r:'da'},{c:'デ',r:'de'},{c:'ド',r:'do'},
+           {c:'バ',r:'ba'},{c:'ビ',r:'bi'},{c:'ブ',r:'bu'},{c:'ベ',r:'be'},{c:'ボ',r:'bo'} ] },
+  { lv:5, label:'ぱ행 & 요음 (복합)',
+    hira:[ {c:'ぱ',r:'pa'},{c:'ぴ',r:'pi'},{c:'ぷ',r:'pu'},{c:'ぺ',r:'pe'},{c:'ぽ',r:'po'},
+           {c:'きゃ',r:'kya'},{c:'きゅ',r:'kyu'},{c:'きょ',r:'kyo'},
+           {c:'しゃ',r:'sha'},{c:'しゅ',r:'shu'},{c:'しょ',r:'sho'},
+           {c:'ちゃ',r:'cha'},{c:'ちゅ',r:'chu'},{c:'ちょ',r:'cho'},
+           {c:'にゃ',r:'nya'},{c:'ひゃ',r:'hya'},{c:'みゃ',r:'mya'},
+           {c:'りゃ',r:'rya'},{c:'ぎゃ',r:'gya'},{c:'じゃ',r:'ja'} ],
+    kata:[ {c:'パ',r:'pa'},{c:'ピ',r:'pi'},{c:'プ',r:'pu'},{c:'ペ',r:'pe'},{c:'ポ',r:'po'},
+           {c:'キャ',r:'kya'},{c:'キュ',r:'kyu'},{c:'キョ',r:'kyo'},
+           {c:'シャ',r:'sha'},{c:'シュ',r:'shu'},{c:'ショ',r:'sho'},
+           {c:'チャ',r:'cha'},{c:'チュ',r:'chu'},{c:'チョ',r:'cho'},
+           {c:'ニャ',r:'nya'},{c:'ヒャ',r:'hya'},{c:'ミャ',r:'mya'},
+           {c:'リャ',r:'rya'},{c:'ギャ',r:'gya'},{c:'ジャ',r:'ja'} ] },
+];
+
+// ── WORDS PER LEVEL (100개씩, 총 500개)
+const LEVEL_WORDS = [
+  // ═══ Level 1: 자연, 동물, 신체, 기본 명사 (100개) ═══
+  [
+    {jp:'ねこ',r:'neko',kr:'고양이',ex:'ねこがいます。\n고양이가 있어요.'},
+    {jp:'いぬ',r:'inu',kr:'강아지',ex:'いぬがかわいい。\n강아지가 귀여워.'},
+    {jp:'き',r:'ki',kr:'나무',ex:'おおきいきです。\n큰 나무예요.'},
+    {jp:'みず',r:'mizu',kr:'물',ex:'みずをのみます。\n물을 마셔요.'},
+    {jp:'かわ',r:'kawa',kr:'강',ex:'かわがきれいです。\n강이 예쁩니다.'},
+    {jp:'うみ',r:'umi',kr:'바다',ex:'うみにいきます。\n바다에 가요.'},
+    {jp:'やま',r:'yama',kr:'산',ex:'やまがたかい。\n산이 높다.'},
+    {jp:'はな',r:'hana',kr:'꽃',ex:'はながさいた。\n꽃이 피었다.'},
+    {jp:'つき',r:'tsuki',kr:'달',ex:'つきがきれい。\n달이 예뻐.'},
+    {jp:'ひ',r:'hi',kr:'해 / 불',ex:'ひがしずむ。\n해가 진다.'},
+    {jp:'そら',r:'sora',kr:'하늘',ex:'そらがあおい。\n하늘이 파래요.'},
+    {jp:'あめ',r:'ame',kr:'비',ex:'あめがふる。\n비가 와요.'},
+    {jp:'ゆき',r:'yuki',kr:'눈(雪)',ex:'ゆきがふった。\n눈이 왔어요.'},
+    {jp:'かぜ',r:'kaze',kr:'바람',ex:'かぜがつよい。\n바람이 세요.'},
+    {jp:'くも',r:'kumo',kr:'구름',ex:'くもがおおい。\n구름이 많아요.'},
+    {jp:'ほし',r:'hoshi',kr:'별',ex:'ほしがみえる。\n별이 보여요.'},
+    {jp:'いし',r:'ishi',kr:'돌',ex:'いしがある。\n돌이 있어요.'},
+    {jp:'すな',r:'suna',kr:'모래',ex:'すなではしる。\n모래에서 뛰어요.'},
+    {jp:'くさ',r:'kusa',kr:'풀',ex:'くさがのびた。\n풀이 자랐어요.'},
+    {jp:'は',r:'ha',kr:'잎',ex:'はがおちる。\n잎이 떨어져요.'},
+    {jp:'とり',r:'tori',kr:'새',ex:'とりがとぶ。\n새가 날아요.'},
+    {jp:'さかな',r:'sakana',kr:'물고기',ex:'さかながおよぐ。\n물고기가 헤엄쳐요.'},
+    {jp:'むし',r:'mushi',kr:'벌레',ex:'むしがいる。\n벌레가 있어요.'},
+    {jp:'うま',r:'uma',kr:'말',ex:'うまにのる。\n말을 타요.'},
+    {jp:'うし',r:'ushi',kr:'소',ex:'うしがいる。\n소가 있어요.'},
+    {jp:'ぶた',r:'buta',kr:'돼지',ex:'ぶたがねる。\n돼지가 자요.'},
+    {jp:'ひつじ',r:'hitsuji',kr:'양',ex:'ひつじがいる。\n양이 있어요.'},
+    {jp:'にわとり',r:'niwatori',kr:'닭',ex:'にわとりがなく。\n닭이 울어요.'},
+    {jp:'あたま',r:'atama',kr:'머리',ex:'あたまがいい。\n머리가 좋아요.'},
+    {jp:'かお',r:'kao',kr:'얼굴',ex:'かおがきれい。\n얼굴이 예쁘다.'},
+    {jp:'め',r:'me',kr:'눈(目)',ex:'めがおおきい。\n눈이 커요.'},
+    {jp:'みみ',r:'mimi',kr:'귀',ex:'みみがきこえる。\n귀가 들려요.'},
+    {jp:'くち',r:'kuchi',kr:'입',ex:'くちをあける。\n입을 열어요.'},
+    {jp:'は',r:'ha',kr:'이',ex:'はがいたい。\n이가 아파요.'},
+    {jp:'て',r:'te',kr:'손',ex:'てをあらう。\n손을 씻어요.'},
+    {jp:'あし',r:'ashi',kr:'발 / 다리',ex:'あしがはやい。\n발이 빨라요.'},
+    {jp:'ゆび',r:'yubi',kr:'손가락',ex:'ゆびがながい。\n손가락이 길어요.'},
+    {jp:'くび',r:'kubi',kr:'목',ex:'くびがいたい。\n목이 아파요.'},
+    {jp:'おなか',r:'onaka',kr:'배',ex:'おなかがすいた。\n배고파요.'},
+    {jp:'せなか',r:'senaka',kr:'등',ex:'せなかがいたい。\n등이 아파요.'},
+    {jp:'こころ',r:'kokoro',kr:'마음',ex:'こころがやさしい。\n마음이 착해요.'},
+    {jp:'いえ',r:'ie',kr:'집',ex:'いえにかえる。\n집에 돌아가요.'},
+    {jp:'へや',r:'heya',kr:'방',ex:'へやがひろい。\n방이 넓어요.'},
+    {jp:'まど',r:'mado',kr:'창문',ex:'まどをあける。\n창문을 열어요.'},
+    {jp:'ドア',r:'doa',kr:'문',ex:'ドアをしめる。\n문을 닫아요.'},
+    {jp:'かぎ',r:'kagi',kr:'열쇠',ex:'かぎをかける。\n열쇠를 잠가요.'},
+    {jp:'いす',r:'isu',kr:'의자',ex:'いすにすわる。\n의자에 앉아요.'},
+    {jp:'つくえ',r:'tsukue',kr:'책상',ex:'つくえがある。\n책상이 있어요.'},
+    {jp:'ベッド',r:'beddo',kr:'침대',ex:'ベッドでねる。\n침대에서 자요.'},
+    {jp:'とこ',r:'toko',kr:'침대 / 잠자리',ex:'とこにはいる。\n잠자리에 들어요.'},
+    {jp:'でんき',r:'denki',kr:'전기 / 불',ex:'でんきをつける。\n불을 켜요.'},
+    {jp:'テレビ',r:'terebi',kr:'TV',ex:'テレビをみる。\n TV를 봐요.'},
+    {jp:'ラジオ',r:'rajio',kr:'라디오',ex:'ラジオをきく。\n라디오를 들어요.'},
+    {jp:'かさ',r:'kasa',kr:'우산',ex:'かさをもつ。\n우산을 들어요.'},
+    {jp:'めがね',r:'megane',kr:'안경',ex:'めがねをかける。\n안경을 써요.'},
+    {jp:'かみ',r:'kami',kr:'종이',ex:'かみにかく。\n종이에 써요.'},
+    {jp:'ペン',r:'pen',kr:'펜',ex:'ペンでかく。\n펜으로 써요.'},
+    {jp:'えんぴつ',r:'enpitsu',kr:'연필',ex:'えんぴつがある。\n연필이 있어요.'},
+    {jp:'けしゴム',r:'keshigomu',kr:'지우개',ex:'けしゴムでけす。\n지우개로 지워요.'},
+    {jp:'ノート',r:'nooto',kr:'공책',ex:'ノートにかく。\n공책에 써요.'},
+    {jp:'かばん',r:'kaban',kr:'가방',ex:'かばんがおもい。\n가방이 무거워요.'},
+    {jp:'ボール',r:'booru',kr:'공',ex:'ボールであそぶ。\n공으로 놀아요.'},
+    {jp:'おもちゃ',r:'omocha',kr:'장난감',ex:'おもちゃがすき。\n장난감이 좋아요.'},
+    {jp:'くるま',r:'kuruma',kr:'자동차',ex:'くるまにのる。\n차를 타요.'},
+    {jp:'じてんしゃ',r:'jitensha',kr:'자전거',ex:'じてんしゃにのる。\n자전거를 타요.'},
+    {jp:'バス',r:'basu',kr:'버스',ex:'バスにのる。\n버스를 타요.'},
+    {jp:'ふね',r:'fune',kr:'배',ex:'ふねにのる。\n배를 타요.'},
+    {jp:'ひこうき',r:'hikouki',kr:'비행기',ex:'ひこうきでいく。\n비행기로 가요.'},
+    {jp:'みち',r:'michi',kr:'길',ex:'みちをあるく。\n길을 걸어요.'},
+    {jp:'はし',r:'hashi',kr:'다리 / 젓가락',ex:'はしをわたる。\n다리를 건너요.'},
+    {jp:'こうえん',r:'kouen',kr:'공원',ex:'こうえんであそぶ。\n공원에서 놀아요.'},
+    {jp:'にわ',r:'niwa',kr:'정원',ex:'にわがきれい。\n정원이 예쁘다.'},
+    {jp:'もり',r:'mori',kr:'숲',ex:'もりをあるく。\n숲을 걸어요.'},
+    {jp:'たに',r:'tani',kr:'계곡',ex:'たにがふかい。\n계곡이 깊어요.'},
+    {jp:'はたけ',r:'hatake',kr:'밭',ex:'はたけではたらく。\n밭에서 일해요.'},
+    {jp:'いろ',r:'iro',kr:'색',ex:'いろがすき。\n색을 좋아해요.'},
+    {jp:'あか',r:'aka',kr:'빨강',ex:'あかいはな。\n빨간 꽃.'},
+    {jp:'あお',r:'ao',kr:'파랑',ex:'あおいそら。\n파란 하늘.'},
+    {jp:'しろ',r:'shiro',kr:'하양',ex:'しろいくも。\n하얀 구름.'},
+    {jp:'くろ',r:'kuro',kr:'검정',ex:'くろいいぬ。\n검은 개.'},
+    {jp:'きいろ',r:'kiiro',kr:'노랑',ex:'きいろいはな。\n노란 꽃.'},
+    {jp:'みどり',r:'midori',kr:'초록',ex:'みどりのき。\n초록 나무.'},
+    {jp:'おと',r:'oto',kr:'소리',ex:'おとがする。\n소리가 나요.'},
+    {jp:'こえ',r:'koe',kr:'목소리',ex:'こえがおおきい。\n목소리가 커요.'},
+    {jp:'なまえ',r:'namae',kr:'이름',ex:'なまえはなに？\n이름이 뭐예요?'},
+    {jp:'ひと',r:'hito',kr:'사람',ex:'ひとがいる。\n사람이 있어요.'},
+    {jp:'こども',r:'kodomo',kr:'어린이',ex:'こどもがあそぶ。\n어린이가 놀아요.'},
+    {jp:'おとな',r:'otona',kr:'어른',ex:'おとながはなす。\n어른이 말해요.'},
+    {jp:'あかちゃん',r:'akachan',kr:'아기',ex:'あかちゃんがなく。\n아기가 울어요.'},
+    {jp:'ちち',r:'chichi',kr:'아버지(내 아버지)',ex:'ちちとあるく。\n아버지와 걸어요.'},
+    {jp:'はは',r:'haha',kr:'어머니(내 어머니)',ex:'ははがつくる。\n어머니가 만들어요.'},
+    {jp:'あに',r:'ani',kr:'형(내 형)',ex:'あにとあそぶ。\n형과 놀아요.'},
+    {jp:'あね',r:'ane',kr:'언니(내 언니)',ex:'あねがいる。\n언니가 있어요.'},
+    {jp:'おとうと',r:'otouto',kr:'남동생',ex:'おとうとがちいさい。\n남동생이 작아요.'},
+    {jp:'いもうと',r:'imouto',kr:'여동생',ex:'いもうとがかわいい。\n여동생이 귀여워요.'},
+    {jp:'おじいさん',r:'ojiisan',kr:'할아버지',ex:'おじいさんがやさしい。\n할아버지가 친절해요.'},
+    {jp:'おばあさん',r:'obaasan',kr:'할머니',ex:'おばあさんとはなす。\n할머니와 이야기해요.'},
+    {jp:'すう',r:'suu',kr:'숫자',ex:'すうをかぞえる。\n숫자를 세요.'},
+    {jp:'ひとつ',r:'hitotsu',kr:'하나',ex:'ひとつください。\n하나 주세요.'},
+    {jp:'ふたつ',r:'futatsu',kr:'둘',ex:'ふたつあります。\n둘 있어요.'},
+  ],
+
+  // ═══ Level 2: 음식, 일상용품, 사물 (100개) ═══
+  [
+    {jp:'ごはん',r:'gohan',kr:'밥 / 식사',ex:'ごはんをたべます。\n밥을 먹어요.'},
+    {jp:'おちゃ',r:'ocha',kr:'녹차',ex:'おちゃをのみます。\n녹차를 마셔요.'},
+    {jp:'パン',r:'pan',kr:'빵',ex:'パンがおいしい！\n빵이 맛있어요!'},
+    {jp:'たまご',r:'tamago',kr:'달걀',ex:'たまごをたべます。\n달걀을 먹어요.'},
+    {jp:'りんご',r:'ringo',kr:'사과',ex:'りんごがあかい。\n사과가 빨개요.'},
+    {jp:'ほん',r:'hon',kr:'책',ex:'ほんをよみます。\n책을 읽어요.'},
+    {jp:'くつ',r:'kutsu',kr:'신발',ex:'くつをはきます。\n신발을 신어요.'},
+    {jp:'とけい',r:'tokei',kr:'시계',ex:'とけいをみます。\n시계를 봐요.'},
+    {jp:'でんわ',r:'denwa',kr:'전화',ex:'でんわします。\n전화할게요.'},
+    {jp:'みず',r:'mizu',kr:'물',ex:'みずをのむ。\n물을 마셔요.'},
+    {jp:'コーヒー',r:'koohii',kr:'커피',ex:'コーヒーがすき。\n커피를 좋아해요.'},
+    {jp:'ミルク',r:'miruku',kr:'우유',ex:'ミルクをのむ。\n우유를 마셔요.'},
+    {jp:'ジュース',r:'juusu',kr:'주스',ex:'ジュースがあまい。\n주스가 달아요.'},
+    {jp:'にく',r:'niku',kr:'고기',ex:'にくをやく。\n고기를 구워요.'},
+    {jp:'さかな',r:'sakana',kr:'생선',ex:'さかながすき。\n생선을 좋아해요.'},
+    {jp:'やさい',r:'yasai',kr:'채소',ex:'やさいをたべる。\n채소를 먹어요.'},
+    {jp:'くだもの',r:'kudamono',kr:'과일',ex:'くだものがすき。\n과일을 좋아해요.'},
+    {jp:'バナナ',r:'banana',kr:'바나나',ex:'バナナがあまい。\n바나나가 달아요.'},
+    {jp:'みかん',r:'mikan',kr:'귤',ex:'みかんをむく。\n귤을 까요.'},
+    {jp:'いちご',r:'ichigo',kr:'딸기',ex:'いちごがすき。\n딸기를 좋아해요.'},
+    {jp:'ぶどう',r:'budou',kr:'포도',ex:'ぶどうをたべる。\n포도를 먹어요.'},
+    {jp:'すいか',r:'suika',kr:'수박',ex:'すいかがおおきい。\n수박이 커요.'},
+    {jp:'トマト',r:'tomato',kr:'토마토',ex:'トマトがあかい。\n토마토가 빨개요.'},
+    {jp:'きゅうり',r:'kyuuri',kr:'오이',ex:'きゅうりをきる。\n오이를 자르다.'},
+    {jp:'にんじん',r:'ninjin',kr:'당근',ex:'にんじんがある。\n당근이 있어요.'},
+    {jp:'たまねぎ',r:'tamanegi',kr:'양파',ex:'たまねぎをきる。\n양파를 자르다.'},
+    {jp:'じゃがいも',r:'jagaimo',kr:'감자',ex:'じゃがいもをゆでる。\n감자를 삶다.'},
+    {jp:'キャベツ',r:'kyabetsu',kr:'양배추',ex:'キャベツをきる。\n양배추를 자르다.'},
+    {jp:'レタス',r:'retasu',kr:'상추',ex:'レタスがある。\n상추가 있어요.'},
+    {jp:'ごま',r:'goma',kr:'참깨',ex:'ごまをかける。\n참깨를 뿌리다.'},
+    {jp:'しお',r:'shio',kr:'소금',ex:'しおをいれる。\n소금을 넣다.'},
+    {jp:'さとう',r:'satou',kr:'설탕',ex:'さとうがあまい。\n설탕이 달아요.'},
+    {jp:'しょうゆ',r:'shouyu',kr:'간장',ex:'しょうゆをかける。\n간장을 뿌리다.'},
+    {jp:'みそ',r:'miso',kr:'된장',ex:'みそしる。\n된장국.'},
+    {jp:'スプーン',r:'supuun',kr:'숟가락',ex:'スプーンでたべる。\n숟가락으로 먹다.'},
+    {jp:'フォーク',r:'fooku',kr:'포크',ex:'フォークをつかう。\n포크를 쓰다.'},
+    {jp:'ナイフ',r:'naifu',kr:'나이프',ex:'ナイフできる。\n나이프로 자르다.'},
+    {jp:'はし',r:'hashi',kr:'젓가락',ex:'はしでたべる。\n젓가락으로 먹다.'},
+    {jp:'おさら',r:'osara',kr:'접시',ex:'おさらがある。\n접시가 있어요.'},
+    {jp:'コップ',r:'koppu',kr:'컵',ex:'コップにいれる。\n컵에 넣다.'},
+    {jp:'ちゃわん',r:'chawan',kr:'밥그릇 / 찻잔',ex:'ちゃわんにいれる。\n그릇에 넣다.'},
+    {jp:'なべ',r:'nabe',kr:'냄비',ex:'なべでにる。\n냄비로 끓이다.'},
+    {jp:'フライパン',r:'furaipan',kr:'프라이팬',ex:'フライパンでやく。\n프라이팬으로 굽다.'},
+    {jp:'ボウル',r:'bouru',kr:'볼',ex:'ボウルにいれる。\n볼에 넣다.'},
+    {jp:'れいぞうこ',r:'reizouko',kr:'냉장고',ex:'れいぞうこにいれる。\n냉장고에 넣다.'},
+    {jp:'でんしレンジ',r:'denshi renji',kr:'전자레인지',ex:'でんしレンジであたためる。\n전자레인지로 데우다.'},
+    {jp:'せんたくき',r:'sentakuki',kr:'세탁기',ex:'せんたくきであらう。\n세탁기로 빨다.'},
+    {jp:'そうじき',r:'soujiki',kr:'청소기',ex:'そうじきでそうじする。\n청소기로 청소하다.'},
+    {jp:'エアコン',r:'eakon',kr:'에어컨',ex:'エアコンをつける。\n에어컨을 켜다.'},
+    {jp:'ストーブ',r:'sutoobu',kr:'난로',ex:'ストーブであたたまる。\n난로로 따뜻해지다.'},
+    {jp:'ふく',r:'fuku',kr:'옷',ex:'ふくをきる。\n옷을 입다.'},
+    {jp:'シャツ',r:'shatsu',kr:'셔츠',ex:'シャツをきる。\n셔츠를 입다.'},
+    {jp:'ズボン',r:'zubon',kr:'바지',ex:'ズボンをはく。\n바지를 입다.'},
+    {jp:'スカート',r:'sukaato',kr:'치마',ex:'スカートをはく。\n치마를 입다.'},
+    {jp:'くつした',r:'kutsushita',kr:'양말',ex:'くつしたをはく。\n양말을 신다.'},
+    {jp:'ぼうし',r:'boushi',kr:'모자',ex:'ぼうしをかぶる。\n모자를 쓰다.'},
+    {jp:'てぶくろ',r:'tebukuro',kr:'장갑',ex:'てぶくろをはめる。\n장갑을 끼다.'},
+    {jp:'マフラー',r:'mafuraa',kr:'목도리',ex:'マフラーをまく。\n목도리를 두르다.'},
+    {jp:'コート',r:'kooto',kr:'코트',ex:'コートをきる。\n코트를 입다.'},
+    {jp:'せっけん',r:'sekken',kr:'비누',ex:'せっけんであらう。\n비누로 씻다.'},
+    {jp:'シャンプー',r:'shanpuu',kr:'샴푸',ex:'シャンプーであらう。\n샴푸로 감다.'},
+    {jp:'タオル',r:'taoru',kr:'수건',ex:'タオルでふく。\n수건으로 닦다.'},
+    {jp:'ティッシュ',r:'tisshu',kr:'휴지',ex:'ティッシュでふく。\n휴지로 닦다.'},
+    {jp:'トイレ',r:'toire',kr:'화장실',ex:'トイレにいく。\n화장실에 가다.'},
+    {jp:'ふろ',r:'furo',kr:'목욕',ex:'ふろにはいる。\n목욕하다.'},
+    {jp:'シャワー',r:'shawaa',kr:'샤워',ex:'シャワーをあびる。\n샤워하다.'},
+    {jp:'はぶらし',r:'haburashi',kr:'칫솔',ex:'はぶらしでみがく。\n칫솔로 닦다.'},
+    {jp:'はみがき',r:'hamigaki',kr:'치약',ex:'はみがきをつける。\n치약을 묻히다.'},
+    {jp:'かがみ',r:'kagami',kr:'거울',ex:'かがみをみる。\n거울을 보다.'},
+    {jp:'くし',r:'kushi',kr:'빗',ex:'くしでとかす。\n빗으로 빗다.'},
+    {jp:'ドライヤー',r:'doraiyaa',kr:'드라이기',ex:'ドライヤーでかわかす。\n드라이기로 말리다.'},
+    {jp:'ベッド',r:'beddo',kr:'침대',ex:'ベッドでねる。\n침대에서 자다.'},
+    {jp:'まくら',r:'makura',kr:'베개',ex:'まくらがやわらかい。\n베개가 부드럽다.'},
+    {jp:'ふとん',r:'futon',kr:'이불',ex:'ふとんをしく。\n이불을 깔다.'},
+    {jp:'もうふ',r:'moufu',kr:'담요',ex:'もうふをかける。\n담요를 덮다.'},
+    {jp:'カーテン',r:'kaaten',kr:'커튼',ex:'カーテンをあける。\n커튼을 열다.'},
+    {jp:'ソファ',r:'sofa',kr:'소파',ex:'ソファにすわる。\n소파에 앉다.'},
+    {jp:'テーブル',r:'teeburu',kr:'테이블',ex:'テーブルにおく。\n테이블에 놓다.'},
+    {jp:'たんす',r:'tansu',kr:'옷장',ex:'たんすにしまう。\n옷장에 넣다.'},
+    {jp:'ごみ',r:'gomi',kr:'쓰레기',ex:'ごみをすてる。\n쓰레기를 버리다.'},
+    {jp:'ごみばこ',r:'gomibako',kr:'쓰레기통',ex:'ごみばこにすてる。\n쓰레기통에 버리다.'},
+    {jp:'そうじ',r:'souji',kr:'청소',ex:'そうじをする。\n청소하다.'},
+    {jp:'せんたく',r:'sentaku',kr:'빨래',ex:'せんたくをする。\n빨래하다.'},
+    {jp:'りょうり',r:'ryouri',kr:'요리',ex:'りょうりをつくる。\n요리를 만들다.'},
+    {jp:'かいもの',r:'kaimono',kr:'쇼핑',ex:'かいものにいく。\n쇼핑하러 가다.'},
+    {jp:'みせ',r:'mise',kr:'가게',ex:'みせでかう。\n가게에서 사다.'},
+    {jp:'おかね',r:'okane',kr:'돈',ex:'おかねをはらう。\n돈을 내다.'},
+    {jp:'さいふ',r:'saifu',kr:'지갑',ex:'さいふにいれる。\n지갑에 넣다.'},
+    {jp:'カード',r:'kaado',kr:'카드',ex:'カードではらう。\n카드로 내다.'},
+    {jp:'にもつ',r:'nimotsu',kr:'짐',ex:'にもつをもつ。\n짐을 들다.'},
+    {jp:'ふくろ',r:'fukuro',kr:'봉투 / 주머니',ex:'ふくろにいれる。\n봉투에 넣다.'},
+    {jp:'はこ',r:'hako',kr:'상자',ex:'はこにいれる。\n상자에 넣다.'},
+    {jp:'びん',r:'bin',kr:'병',ex:'びんにいれる。\n병에 넣다.'},
+    {jp:'かん',r:'kan',kr:'캔',ex:'かんをあける。\n캔을 열다.'},
+    {jp:'ボトル',r:'botoru',kr:'병 / 보틀',ex:'ボトルにいれる。\n보틀에 넣다.'},
+    {jp:'パック',r:'pakku',kr:'팩',ex:'パックでかう。\n팩으로 사다.'},
+    {jp:'ラップ',r:'rappu',kr:'랩',ex:'ラップでつつむ。\n랩으로 싸다.'},
+    {jp:'アルミホイル',r:'arumi hoiru',kr:'알루미늄 호일',ex:'アルミホイルでつつむ。\n호일로 싸다.'},
+  ],
+
+  // ═══ Level 3: 장소, 사람, 교통, 관계 (100개) ═══
+  [
+    {jp:'がっこう',r:'gakkou',kr:'학교',ex:'がっこうにいきます。\n학교에 가요.'},
+    {jp:'びょういん',r:'byouin',kr:'병원',ex:'びょういんにいきます。\n병원에 가요.'},
+    {jp:'ともだち',r:'tomodachi',kr:'친구',ex:'ともだちとあそびます。\n친구와 놀아요.'},
+    {jp:'かぞく',r:'kazoku',kr:'가족',ex:'かぞくがすきです。\n가족을 좋아해요.'},
+    {jp:'おかあさん',r:'okaasan',kr:'어머니',ex:'おかあさんはやさしい。\n어머니는 친절해요.'},
+    {jp:'おとうさん',r:'otousan',kr:'아버지',ex:'おとうさんはいそがしい。\n아버지는 바쁘세요.'},
+    {jp:'でんしゃ',r:'densha',kr:'전철',ex:'でんしゃにのります。\n전철을 타요.'},
+    {jp:'ちかてつ',r:'chikatetsu',kr:'지하철',ex:'ちかてつがはやい。\n지하철이 빨라요.'},
+    {jp:'レストラン',r:'resutoran',kr:'레스토랑',ex:'レストランでたべます。\n레스토랑에서 먹어요.'},
+    {jp:'スーパー',r:'suupaa',kr:'슈퍼마켓',ex:'スーパーでかいます。\n슈퍼에서 사요.'},
+    {jp:'コンビニ',r:'konbini',kr:'편의점',ex:'コンビニでかう。\n편의점에서 사다.'},
+    {jp:'えき',r:'eki',kr:'역',ex:'えきにいく。\n역에 가다.'},
+    {jp:'くうこう',r:'kuukou',kr:'공항',ex:'くうこうにいく。\n공항에 가다.'},
+    {jp:'こうばん',r:'kouban',kr:'파출소',ex:'こうばんできく。\n파출소에서 묻다.'},
+    {jp:'としょかん',r:'toshokan',kr:'도서관',ex:'としょかんでよむ。\n도서관에서 읽다.'},
+    {jp:'ゆうびんきょく',r:'yuubinkyoku',kr:'우체국',ex:'ゆうびんきょくにいく。\n우체국에 가다.'},
+    {jp:'ぎんこう',r:'ginkou',kr:'은행',ex:'ぎんこうでおろす。\n은행에서 찾다.'},
+    {jp:'デパート',r:'depaato',kr:'백화점',ex:'デパートでかう。\n백화점에서 사다.'},
+    {jp:'ホテル',r:'hoteru',kr:'호텔',ex:'ホテルにとまる。\n호텔에 묵다.'},
+    {jp:'りょかん',r:'ryokan',kr:'료칸(일본식 여관)',ex:'りょかんにとまる。\n료칸에 묵다.'},
+    {jp:'カフェ',r:'kafe',kr:'카페',ex:'カフェでのむ。\n카페에서 마시다.'},
+    {jp:'こうえん',r:'kouen',kr:'공원',ex:'こうえんであそぶ。\n공원에서 놀다.'},
+    {jp:'どうぶつえん',r:'doubutsuen',kr:'동물원',ex:'どうぶつえんにいく。\n동물원에 가다.'},
+    {jp:'すいぞくかん',r:'suizokukan',kr:'수족관',ex:'すいぞくかんをみる。\n수족관을 보다.'},
+    {jp:'はくぶつかん',r:'hakubutsukan',kr:'박물관',ex:'はくぶつかんにいく。\n박물관에 가다.'},
+    {jp:'びじゅつかん',r:'bijutsukan',kr:'미술관',ex:'びじゅつかんをみる。\n미술관을 보다.'},
+    {jp:'えいがかん',r:'eigakan',kr:'영화관',ex:'えいがかんでみる。\n영화관에서 보다.'},
+    {jp:'げきじょう',r:'gekijou',kr:'극장',ex:'げきじょうでみる。\n극장에서 보다.'},
+    {jp:'たいしかん',r:'taishikan',kr:'대사관',ex:'たいしかんにいく。\n대사관에 가다.'},
+    {jp:'けいさつ',r:'keisatsu',kr:'경찰',ex:'けいさつによぶ。\n경찰에 신고하다.'},
+    {jp:'しょうぼう',r:'shoubou',kr:'소방',ex:'しょうぼうがくる。\n소방차가 오다.'},
+    {jp:'せんせい',r:'sensei',kr:'선생님',ex:'せんせいにきく。\n선생님께 묻다.'},
+    {jp:'がくせい',r:'gakusei',kr:'학생',ex:'がくせいがべんきょうする。\n학생이 공부하다.'},
+    {jp:'いしゃ',r:'isha',kr:'의사',ex:'いしゃにみてもらう。\n의사에게 진료받다.'},
+    {jp:'かんごし',r:'kangoshi',kr:'간호사',ex:'かんごしがたすける。\n간호사가 돕다.'},
+    {jp:'しごとにん',r:'shigotonin',kr:'직장인',ex:'しごとにんがはたらく。\n직장인이 일하다.'},
+    {jp:'てんいん',r:'tenin',kr:'점원',ex:'てんいんにきく。\n점원에게 묻다.'},
+    {jp:'うんてんしゅ',r:'untenshu',kr:'운전기사',ex:'うんてんしゅがうんてんする。\n운전기사가 운전하다.'},
+    {jp:'けいびいん',r:'keibiin',kr:'경비원',ex:'けいびいんがまもる。\n경비원이 지키다.'},
+    {jp:'りょうしん',r:'ryoushin',kr:'부모님',ex:'りょうしんがやさしい。\n부모님이 친절하다.'},
+    {jp:'きょうだい',r:'kyoudai',kr:'형제자매',ex:'きょうだいがいる。\n형제자매가 있다.'},
+    {jp:'おじ',r:'oji',kr:'삼촌',ex:'おじにあう。\n삼촌을 만나다.'},
+    {jp:'おば',r:'oba',kr:'이모 / 고모',ex:'おばにあう。\n이모를 만나다.'},
+    {jp:'いとこ',r:'itoko',kr:'사촌',ex:'いとことあそぶ。\n사촌과 놀다.'},
+    {jp:'まご',r:'mago',kr:'손자 / 손녀',ex:'まごがかわいい。\n손자가 귀엽다.'},
+    {jp:'せんぱい',r:'senpai',kr:'선배',ex:'せんぱいにきく。\n선배에게 묻다.'},
+    {jp:'こうはい',r:'kouhai',kr:'후배',ex:'こうはいをおしえる。\n후배를 가르치다.'},
+    {jp:'どうりょう',r:'douryou',kr:'동료',ex:'どうりょうとはたらく。\n동료와 일하다.'},
+    {jp:'じょうし',r:'joushi',kr:'상사',ex:'じょうしにほうこくする。\n상사에게 보고하다.'},
+    {jp:'ぶか',r:'buka',kr:'부하',ex:'ぶかをそだてる。\n부하를 키우다.'},
+    {jp:'きゃく',r:'kyaku',kr:'손님',ex:'きゃくがくる。\n손님이 오다.'},
+    {jp:'ゲスト',r:'gesuto',kr:'게스트',ex:'ゲストをまねく。\n게스트를 초대하다.'},
+    {jp:'ひとり',r:'hitori',kr:'한 명 / 혼자',ex:'ひとりでいく。\n혼자 가다.'},
+    {jp:'ふたり',r:'futari',kr:'두 명',ex:'ふたりでいく。\n둘이서 가다.'},
+    {jp:'みんな',r:'minna',kr:'모두',ex:'みんなでいく。\n모두 가다.'},
+    {jp:'だれ',r:'dare',kr:'누구',ex:'だれがくる？\n누가 와요?'},
+    {jp:'なに',r:'nani',kr:'무엇',ex:'なにをする？\n뭘 해요?'},
+    {jp:'どこ',r:'doko',kr:'어디',ex:'どこにいく？\n어디 가요?'},
+    {jp:'いつ',r:'itsu',kr:'언제',ex:'いつくる？\n언제 와요?'},
+    {jp:'なぜ',r:'naze',kr:'왜',ex:'なぜきた？\n왜 왔어요?'},
+    {jp:'どう',r:'dou',kr:'어떻게',ex:'どうする？\n어떻게 해요?'},
+    {jp:'どれ',r:'dore',kr:'어느 것',ex:'どれがいい？\n어느 게 좋아요?'},
+    {jp:'ここ',r:'koko',kr:'여기',ex:'ここにある。\n여기 있어요.'},
+    {jp:'そこ',r:'soko',kr:'거기',ex:'そこにおく。\n거기 놓다.'},
+    {jp:'あそこ',r:'asoko',kr:'저기',ex:'あそこにいく。\n저기 가다.'},
+    {jp:'こっち',r:'kocchi',kr:'이쪽',ex:'こっちにくる。\n이쪽으로 와요.'},
+    {jp:'そっち',r:'socchi',kr:'그쪽',ex:'そっちにいく。\n그쪽으로 가요.'},
+    {jp:'あっち',r:'acchi',kr:'저쪽',ex:'あっちにある。\n저쪽에 있어요.'},
+    {jp:'うえ',r:'ue',kr:'위',ex:'うえにおく。\n위에 놓다.'},
+    {jp:'した',r:'shita',kr:'아래',ex:'したにおく。\n아래 놓다.'},
+    {jp:'なか',r:'naka',kr:'안',ex:'なかにいれる。\n안에 넣다.'},
+    {jp:'そと',r:'soto',kr:'밖',ex:'そとにでる。\n밖에 나가다.'},
+    {jp:'となり',r:'tonari',kr:'옆',ex:'となりにすわる。\n옆에 앉다.'},
+    {jp:'まえ',r:'mae',kr:'앞',ex:'まえにいく。\n앞으로 가다.'},
+    {jp:'うしろ',r:'ushiro',kr:'뒤',ex:'うしろをみる。\n뒤를 보다.'},
+    {jp:'ひだり',r:'hidari',kr:'왼쪽',ex:'ひだりにまがる。\n왼쪽으로 돌다.'},
+    {jp:'みぎ',r:'migi',kr:'오른쪽',ex:'みぎにまがる。\n오른쪽으로 돌다.'},
+    {jp:'まんなか',r:'mannaka',kr:'가운데',ex:'まんなかにおく。\n가운데 놓다.'},
+    {jp:'はし',r:'hashi',kr:'끝',ex:'はしにおく。\n끝에 놓다.'},
+    {jp:'ちかく',r:'chikaku',kr:'가까이 / 근처',ex:'ちかくにある。\n가까이 있다.'},
+    {jp:'とおく',r:'tooku',kr:'멀리',ex:'とおくにある。\n멀리 있다.'},
+    {jp:'ちかい',r:'chikai',kr:'가깝다',ex:'えきがちかい。\n역이 가깝다.'},
+    {jp:'とおい',r:'tooi',kr:'멀다',ex:'うみがとおい。\n바다가 멀다.'},
+    {jp:'タクシー',r:'takushii',kr:'택시',ex:'タクシーにのる。\n택시를 타다.'},
+    {jp:'バイク',r:'baiku',kr:'오토바이',ex:'バイクにのる。\n오토바이를 타다.'},
+    {jp:'しんかんせん',r:'shinkansen',kr:'신칸센',ex:'しんかんせんにのる。\n신칸센을 타다.'},
+    {jp:'のりもの',r:'norimono',kr:'탈것 / 교통수단',ex:'のりものでいく。\n교통수단으로 가다.'},
+    {jp:'うんちん',r:'unchin',kr:'요금',ex:'うんちんをはらう。\n요금을 내다.'},
+    {jp:'きっぷ',r:'kippu',kr:'표 / 티켓',ex:'きっぷをかう。\n표를 사다.'},
+    {jp:'パスポート',r:'pasupooto',kr:'여권',ex:'パスポートをみせる。\n여권을 보여주다.'},
+    {jp:'ビザ',r:'biza',kr:'비자',ex:'ビザをとる。\n비자를 받다.'},
+    {jp:'りょこうしゃ',r:'ryokousha',kr:'여행사',ex:'りょこうしゃにいく。\n여행사에 가다.'},
+    {jp:'ツアー',r:'tsuaa',kr:'투어',ex:'ツアーにさんかする。\n투어에 참가하다.'},
+    {jp:'ガイド',r:'gaido',kr:'가이드',ex:'ガイドがあんないする。\n가이드가 안내하다.'},
+    {jp:'ちず',r:'chizu',kr:'지도',ex:'ちずをみる。\n지도를 보다.'},
+    {jp:'じかん',r:'jikan',kr:'시간',ex:'じかんがない。\n시간이 없다.'},
+    {jp:'よてい',r:'yotei',kr:'예정',ex:'よていをたてる。\n예정을 세우다.'},
+    {jp:'やくそく',r:'yakusoku',kr:'약속',ex:'やくそくをする。\n약속하다.'},
+  ],
+
+  // ═══ Level 4: 생활, 취미, 직장, 날씨 (100개) ═══
+  [
+    {jp:'しゅみ',r:'shumi',kr:'취미',ex:'しゅみはなんですか。\n취미가 뭔가요?'},
+    {jp:'りょこう',r:'ryokou',kr:'여행',ex:'りょこうがすきです。\n여행을 좋아해요.'},
+    {jp:'おんがく',r:'ongaku',kr:'음악',ex:'おんがくをききます。\n음악을 들어요.'},
+    {jp:'えいが',r:'eiga',kr:'영화',ex:'えいがをみます。\n영화를 봐요.'},
+    {jp:'てんき',r:'tenki',kr:'날씨',ex:'きょうのてんきは？\n오늘 날씨는요?'},
+    {jp:'かいしゃ',r:'kaisha',kr:'회사',ex:'かいしゃにいきます。\n회사에 가요.'},
+    {jp:'しごと',r:'shigoto',kr:'일 / 직장',ex:'しごとがたのしい。\n일이 즐거워요.'},
+    {jp:'まち',r:'machi',kr:'도시 / 마을',ex:'このまちがすきです。\n이 도시가 좋아요.'},
+    {jp:'ニュース',r:'nyuusu',kr:'뉴스',ex:'ニュースをみます。\n뉴스를 봐요.'},
+    {jp:'けいたい',r:'keitai',kr:'휴대폰',ex:'けいたいをつかいます。\n휴대폰을 써요.'},
+    {jp:'スマホ',r:'sumaho',kr:'스마트폰',ex:'スマホでしらべる。\n스마트폰으로 찾다.'},
+    {jp:'パソコン',r:'pasokon',kr:'컴퓨터',ex:'パソコンでしごとする。\n컴퓨터로 일하다.'},
+    {jp:'インターネット',r:'intaanetto',kr:'인터넷',ex:'インターネットでみる。\n인터넷으로 보다.'},
+    {jp:'メール',r:'meeru',kr:'이메일',ex:'メールをおくる。\n이메일을 보내다.'},
+    {jp:'アプリ',r:'apuri',kr:'앱',ex:'アプリをつかう。\n앱을 쓰다.'},
+    {jp:'サイト',r:'saito',kr:'사이트',ex:'サイトをみる。\n사이트를 보다.'},
+    {jp:'SNS',r:'esu enu esu',kr:'SNS',ex:'SNSにのせる。\n SNS에 올리다.'},
+    {jp:'しゃしん',r:'shashin',kr:'사진',ex:'しゃしんをとる。\n사진을 찍다.'},
+    {jp:'カメラ',r:'kamera',kr:'카메라',ex:'カメラでとる。\n카메라로 찍다.'},
+    {jp:'ビデオ',r:'bideo',kr:'비디오',ex:'ビデオをとる。\n비디오를 찍다.'},
+    {jp:'うた',r:'uta',kr:'노래',ex:'うたをうたう。\n노래를 부르다.'},
+    {jp:'ダンス',r:'dansu',kr:'춤',ex:'ダンスをおどる。\n춤을 추다.'},
+    {jp:'がっき',r:'gakki',kr:'악기',ex:'がっきをひく。\n악기를 연주하다.'},
+    {jp:'ピアノ',r:'piano',kr:'피아노',ex:'ピアノをひく。\n피아노를 치다.'},
+    {jp:'ギター',r:'gitaa',kr:'기타',ex:'ギターをひく。\n기타를 치다.'},
+    {jp:'バイオリン',r:'baiorin',kr:'바이올린',ex:'バイオリンをひく。\n바이올린을 켜다.'},
+    {jp:'スポーツ',r:'supootsu',kr:'스포츠',ex:'スポーツをする。\n스포츠를 하다.'},
+    {jp:'サッカー',r:'sakkaa',kr:'축구',ex:'サッカーをする。\n축구를 하다.'},
+    {jp:'やきゅう',r:'yakyuu',kr:'야구',ex:'やきゅうをみる。\n야구를 보다.'},
+    {jp:'バスケ',r:'basuke',kr:'농구',ex:'バスケをする。\n농구를 하다.'},
+    {jp:'テニス',r:'tenisu',kr:'테니스',ex:'テニスをする。\n테니스를 하다.'},
+    {jp:'すいえい',r:'suiei',kr:'수영',ex:'すいえいをする。\n수영하다.'},
+    {jp:'ジョギング',r:'jogingu',kr:'조깅',ex:'ジョギングをする。\n조깅하다.'},
+    {jp:'ウォーキング',r:'wookingu',kr:'걷기',ex:'ウォーキングをする。\n걷기를 하다.'},
+    {jp:'ヨガ',r:'yoga',kr:'요가',ex:'ヨガをする。\n요가를 하다.'},
+    {jp:'ジム',r:'jimu',kr:'헬스장',ex:'ジムにいく。\n헬스장에 가다.'},
+    {jp:'うんどう',r:'undou',kr:'운동',ex:'うんどうをする。\n운동하다.'},
+    {jp:'たいいく',r:'taiiku',kr:'체육',ex:'たいいくのじゅぎょう。\n체육 수업.'},
+    {jp:'あそび',r:'asobi',kr:'놀이',ex:'あそびにいく。\n놀러 가다.'},
+    {jp:'ゲーム',r:'geemu',kr:'게임',ex:'ゲームをする。\n게임하다.'},
+    {jp:'トランプ',r:'toranpu',kr:'트럼프',ex:'トランプであそぶ。\n트럼프로 놀다.'},
+    {jp:'パズル',r:'pazuru',kr:'퍼즐',ex:'パズルをする。\n퍼즐을 하다.'},
+    {jp:'しょうせつ',r:'shousetsu',kr:'소설',ex:'しょうせつをよむ。\n소설을 읽다.'},
+    {jp:'まんが',r:'manga',kr:'만화',ex:'まんがをよむ。\n만화를 읽다.'},
+    {jp:'ざっし',r:'zasshi',kr:'잡지',ex:'ざっしをよむ。\n잡지를 읽다.'},
+    {jp:'しんぶん',r:'shinbun',kr:'신문',ex:'しんぶんをよむ。\n신문을 읽다.'},
+    {jp:'べんきょう',r:'benkyou',kr:'공부',ex:'べんきょうをする。\n공부하다.'},
+    {jp:'じゅぎょう',r:'jugyou',kr:'수업',ex:'じゅぎょうをうける。\n수업을 받다.'},
+    {jp:'しけん',r:'shiken',kr:'시험',ex:'しけんをうける。\n시험을 보다.'},
+    {jp:'しゅくだい',r:'shukudai',kr:'숙제',ex:'しゅくだいをする。\n숙제하다.'},
+    {jp:'せいせき',r:'seiseki',kr:'성적',ex:'せいせきがいい。\n성적이 좋다.'},
+    {jp:'そつぎょう',r:'sotsugyou',kr:'졸업',ex:'そつぎょうする。\n졸업하다.'},
+    {jp:'にゅうがく',r:'nyuugaku',kr:'입학',ex:'にゅうがくする。\n입학하다.'},
+    {jp:'しゅっせき',r:'shusseki',kr:'출석',ex:'しゅっせきする。\n출석하다.'},
+    {jp:'けっせき',r:'kesseki',kr:'결석',ex:'けっせきする。\n결석하다.'},
+    {jp:'ちこく',r:'chikoku',kr:'지각',ex:'ちこくする。\n지각하다.'},
+    {jp:'そうたい',r:'soutai',kr:'조퇴',ex:'そうたいする。\n조퇴하다.'},
+    {jp:'やすみ',r:'yasumi',kr:'휴식 / 휴가',ex:'やすみをとる。\n휴가를 받다.'},
+    {jp:'きゅうか',r:'kyuuka',kr:'휴가',ex:'きゅうかをとる。\n휴가를 내다.'},
+    {jp:'きゅうじつ',r:'kyuujitsu',kr:'휴일',ex:'きゅうじつにやすむ。\n휴일에 쉬다.'},
+    {jp:'しゅうまつ',r:'shuumatsu',kr:'주말',ex:'しゅうまつにあそぶ。\n주말에 놀다.'},
+    {jp:'へいじつ',r:'heijitsu',kr:'평일',ex:'へいじつにはたらく。\n평일에 일하다.'},
+    {jp:'しゅっきん',r:'shukkin',kr:'출근',ex:'しゅっきんする。\n출근하다.'},
+    {jp:'たいきん',r:'taikin',kr:'퇴근',ex:'たいきんする。\n퇴근하다.'},
+    {jp:'ざんぎょう',r:'zangyou',kr:'야근 / 잔업',ex:'ざんぎょうをする。\n야근하다.'},
+    {jp:'かいぎ',r:'kaigi',kr:'회의',ex:'かいぎにでる。\n회의에 참석하다.'},
+    {jp:'プレゼン',r:'purezen',kr:'프레젠테이션',ex:'プレゼンをする。\n프레젠테이션 하다.'},
+    {jp:'ほうこく',r:'houkoku',kr:'보고',ex:'ほうこくをする。\n보고하다.'},
+    {jp:'しりょう',r:'shiryou',kr:'자료',ex:'しりょうをつくる。\n자료를 만들다.'},
+    {jp:'けいかく',r:'keikaku',kr:'계획',ex:'けいかくをたてる。\n계획을 세우다.'},
+    {jp:'プロジェクト',r:'purojekuto',kr:'프로젝트',ex:'プロジェクトをすすめる。\n프로젝트를 진행하다.'},
+    {jp:'スケジュール',r:'sukejuuru',kr:'스케줄',ex:'スケジュールをくむ。\n스케줄을 짜다.'},
+    {jp:'しめきり',r:'shimekiri',kr:'마감',ex:'しめきりをまもる。\n마감을 지키다.'},
+    {jp:'きゅうりょう',r:'kyuuryou',kr:'급여',ex:'きゅうりょうをもらう。\n급여를 받다.'},
+    {jp:'ボーナス',r:'boonasu',kr:'보너스',ex:'ボーナスがでる。\n보너스가 나오다.'},
+    {jp:'しょうきゅう',r:'shoukyuu',kr:'승급',ex:'しょうきゅうする。\n승급하다.'},
+    {jp:'てんきん',r:'tenkin',kr:'전근',ex:'てんきんする。\n전근하다.'},
+    {jp:'たいしょく',r:'taishoku',kr:'퇴직',ex:'たいしょくする。\n퇴직하다.'},
+    {jp:'はる',r:'haru',kr:'봄',ex:'はるがくる。\n봄이 오다.'},
+    {jp:'なつ',r:'natsu',kr:'여름',ex:'なつがあつい。\n여름이 덥다.'},
+    {jp:'あき',r:'aki',kr:'가을',ex:'あきがすずしい。\n가을이 시원하다.'},
+    {jp:'ふゆ',r:'fuyu',kr:'겨울',ex:'ふゆがさむい。\n겨울이 춥다.'},
+    {jp:'あつい',r:'atsui',kr:'덥다 / 뜨겁다',ex:'きょうはあつい。\n오늘은 덥다.'},
+    {jp:'さむい',r:'samui',kr:'춥다',ex:'ふゆはさむい。\n겨울은 춥다.'},
+    {jp:'すずしい',r:'suzushii',kr:'시원하다',ex:'かぜがすずしい。\n바람이 시원하다.'},
+    {jp:'あたたかい',r:'atatakai',kr:'따뜻하다',ex:'はるはあたたかい。\n봄은 따뜻하다.'},
+    {jp:'むしあつい',r:'mushiatsui',kr:'무덥다',ex:'きょうはむしあつい。\n오늘은 무덥다.'},
+    {jp:'くもり',r:'kumori',kr:'흐림',ex:'きょうはくもり。\n오늘은 흐려요.'},
+    {jp:'はれ',r:'hare',kr:'맑음',ex:'あしたははれ。\n내일은 맑아요.'},
+    {jp:'たいふう',r:'taifuu',kr:'태풍',ex:'たいふうがくる。\n태풍이 오다.'},
+    {jp:'かみなり',r:'kaminari',kr:'천둥 / 번개',ex:'かみなりがなる。\n천둥이 치다.'},
+    {jp:'つゆ',r:'tsuyu',kr:'장마',ex:'つゆがながい。\n장마가 길다.'},
+    {jp:'きおん',r:'kion',kr:'기온',ex:'きおんがたかい。\n기온이 높다.'},
+    {jp:'しつど',r:'shitsudo',kr:'습도',ex:'しつどがたかい。\n습도가 높다.'},
+    {jp:'よほう',r:'yohou',kr:'예보',ex:'てんきよほう。\n날씨 예보.'},
+  ],
+
+  // ═══ Level 5: 추상개념, 감정, 비즈니스, 고급표현 (100개) ═══
+  [
+    {jp:'かいぎ',r:'kaigi',kr:'회의',ex:'かいぎがあります。\n회의가 있어요.'},
+    {jp:'よやく',r:'yoyaku',kr:'예약',ex:'よやくをします。\n예약을 해요.'},
+    {jp:'しりょう',r:'shiryou',kr:'자료',ex:'しりょうをよみます。\n자료를 읽어요.'},
+    {jp:'こうどう',r:'koudou',kr:'행동',ex:'こうどうがたいせつ。\n행동이 중요해요.'},
+    {jp:'ふんいき',r:'fun\'iki',kr:'분위기',ex:'いいふんいきですね。\n분위기 좋네요.'},
+    {jp:'おもいで',r:'omoide',kr:'추억',ex:'いいおもいでです。\n좋은 추억이에요.'},
+    {jp:'しあわせ',r:'shiawase',kr:'행복',ex:'しあわせをかんじる。\n행복을 느껴요.'},
+    {jp:'ゆめ',r:'yume',kr:'꿈',ex:'ゆめをもとう！\n꿈을 갖자!'},
+    {jp:'いのち',r:'inochi',kr:'생명',ex:'いのちをたいせつに。\n생명을 소중히.'},
+    {jp:'きょうりょく',r:'kyouryoku',kr:'협력',ex:'きょうりょくします。\n협력할게요.'},
+    {jp:'せいこう',r:'seikou',kr:'성공',ex:'せいこうをいのる。\n성공을 빌다.'},
+    {jp:'しっぱい',r:'shippai',kr:'실패',ex:'しっぱいをおそれない。\n실패를 두려워하지 않다.'},
+    {jp:'どりょく',r:'doryoku',kr:'노력',ex:'どりょくがたいせつ。\n노력이 중요하다.'},
+    {jp:'けいけん',r:'keiken',kr:'경험',ex:'けいけんをつむ。\n경험을 쌓다.'},
+    {jp:'ちしき',r:'chishiki',kr:'지식',ex:'ちしきをふやす。\n지식을 늘리다.'},
+    {jp:'のうりょく',r:'nouryoku',kr:'능력',ex:'のうりょくをのばす。\n능력을 키우다.'},
+    {jp:'スキル',r:'sukiru',kr:'스킬',ex:'スキルをあげる。\n스킬을 올리다.'},
+    {jp:'せいちょう',r:'seichou',kr:'성장',ex:'せいちょうする。\n성장하다.'},
+    {jp:'かいぜん',r:'kaizen',kr:'개선',ex:'かいぜんする。\n개선하다.'},
+    {jp:'こうりつ',r:'kouritsu',kr:'효율',ex:'こうりつをあげる。\n효율을 높이다.'},
+    {jp:'せいさん',r:'seisan',kr:'생산',ex:'せいさんをふやす。\n생산을 늘리다.'},
+    {jp:'ひんしつ',r:'hinshitsu',kr:'품질',ex:'ひんしつをたもつ。\n품질을 유지하다.'},
+    {jp:'コスト',r:'kosuto',kr:'비용',ex:'コストをさげる。\n비용을 낮추다.'},
+    {jp:'りえき',r:'rieki',kr:'이익',ex:'りえきをあげる。\n이익을 올리다.'},
+    {jp:'そんしつ',r:'sonshitsu',kr:'손실',ex:'そんしつをへらす。\n손실을 줄이다.'},
+    {jp:'かんり',r:'kanri',kr:'관리',ex:'かんりをする。\n관리하다.'},
+    {jp:'うんえい',r:'un\'ei',kr:'운영',ex:'うんえいする。\n운영하다.'},
+    {jp:'せきにん',r:'sekinin',kr:'책임',ex:'せきにんをもつ。\n책임을 지다.'},
+    {jp:'ぎむ',r:'gimu',kr:'의무',ex:'ぎむをはたす。\n의무를 다하다.'},
+    {jp:'けんり',r:'kenri',kr:'권리',ex:'けんりをまもる。\n권리를 지키다.'},
+    {jp:'ルール',r:'ruuru',kr:'규칙',ex:'ルールをまもる。\n규칙을 지키다.'},
+    {jp:'ほうりつ',r:'houritsu',kr:'법률',ex:'ほうりつをまもる。\n법률을 지키다.'},
+    {jp:'けいやく',r:'keiyaku',kr:'계약',ex:'けいやくをむすぶ。\n계약을 맺다.'},
+    {jp:'とうろく',r:'touroku',kr:'등록',ex:'とうろくする。\n등록하다.'},
+    {jp:'しんせい',r:'shinsei',kr:'신청',ex:'しんせいする。\n신청하다.'},
+    {jp:'かくにん',r:'kakunin',kr:'확인',ex:'かくにんする。\n확인하다.'},
+    {jp:'しょうにん',r:'shounin',kr:'승인',ex:'しょうにんをもらう。\n승인을 받다.'},
+    {jp:'きょか',r:'kyoka',kr:'허가',ex:'きょかをとる。\n허가를 받다.'},
+    {jp:'きんし',r:'kinshi',kr:'금지',ex:'きんしされている。\n금지되어 있다.'},
+    {jp:'せいげん',r:'seigen',kr:'제한',ex:'せいげんがある。\n제한이 있다.'},
+    {jp:'じゆう',r:'jiyuu',kr:'자유',ex:'じゆうにする。\n자유롭게 하다.'},
+    {jp:'へいわ',r:'heiwa',kr:'평화',ex:'へいわをのぞむ。\n평화를 바라다.'},
+    {jp:'せんそう',r:'sensou',kr:'전쟁',ex:'せんそうがおわる。\n전쟁이 끝나다.'},
+    {jp:'あんぜん',r:'anzen',kr:'안전',ex:'あんぜんがだいいち。\n안전이 첫째.'},
+    {jp:'きけん',r:'kiken',kr:'위험',ex:'きけんがある。\n위험이 있다.'},
+    {jp:'じこ',r:'jiko',kr:'사고',ex:'じこがおきる。\n사고가 일어나다.'},
+    {jp:'そうなん',r:'sounan',kr:'조난',ex:'そうなんする。\n조난하다.'},
+    {jp:'さいがい',r:'saigai',kr:'재해',ex:'さいがいがおこる。\n재해가 발생하다.'},
+    {jp:'じしん',r:'jishin',kr:'지진',ex:'じしんがおこる。\n지진이 일어나다.'},
+    {jp:'つなみ',r:'tsunami',kr:'쓰나미',ex:'つなみがくる。\n쓰나미가 오다.'},
+    {jp:'かざん',r:'kazan',kr:'화산',ex:'かざんがふんかする。\n화산이 분화하다.'},
+    {jp:'こうずい',r:'kouzui',kr:'홍수',ex:'こうずいがおこる。\n홍수가 나다.'},
+    {jp:'かんそう',r:'kansou',kr:'가뭄',ex:'かんそうがつづく。\n가뭄이 계속되다.'},
+    {jp:'かんきょう',r:'kankyou',kr:'환경',ex:'かんきょうをまもる。\n환경을 지키다.'},
+    {jp:'おせん',r:'osen',kr:'오염',ex:'おせんがひどい。\n오염이 심하다.'},
+    {jp:'リサイクル',r:'risaikuru',kr:'재활용',ex:'リサイクルする。\n재활용하다.'},
+    {jp:'せつやく',r:'setsuyaku',kr:'절약',ex:'せつやくする。\n절약하다.'},
+    {jp:'むだ',r:'muda',kr:'낭비',ex:'むだをなくす。\n낭비를 없애다.'},
+    {jp:'かち',r:'kachi',kr:'가치',ex:'かちがある。\n가치가 있다.'},
+    {jp:'いみ',r:'imi',kr:'의미',ex:'いみがわかる。\n의미를 알다.'},
+    {jp:'もくてき',r:'mokuteki',kr:'목적',ex:'もくてきをたっする。\n목적을 달성하다.'},
+    {jp:'もくひょう',r:'mokuhyou',kr:'목표',ex:'もくひょうをたてる。\n목표를 세우다.'},
+    {jp:'ほうほう',r:'houhou',kr:'방법',ex:'ほうほうをかんがえる。\n방법을 생각하다.'},
+    {jp:'てだて',r:'tedate',kr:'수단',ex:'てだてをこうじる。\n수단을 강구하다.'},
+    {jp:'けっか',r:'kekka',kr:'결과',ex:'けっかがでる。\n결과가 나오다.'},
+    {jp:'げんいん',r:'gen\'in',kr:'원인',ex:'げんいんをさがす。\n원인을 찾다.'},
+    {jp:'りゆう',r:'riyuu',kr:'이유',ex:'りゆうをきく。\n이유를 묻다.'},
+    {jp:'じょうたい',r:'joutai',kr:'상태',ex:'じょうたいをみる。\n상태를 보다.'},
+    {jp:'じょうきょう',r:'joukyou',kr:'상황',ex:'じょうきょうをせつめいする。\n상황을 설명하다.'},
+    {jp:'かいけつ',r:'kaiketsu',kr:'해결',ex:'かいけつする。\n해결하다.'},
+    {jp:'もんだい',r:'mondai',kr:'문제',ex:'もんだいがおこる。\n문제가 생기다.'},
+    {jp:'かだい',r:'kadai',kr:'과제',ex:'かだいをこなす。\n과제를 해내다.'},
+    {jp:'ちょうせん',r:'chousen',kr:'도전',ex:'ちょうせんする。\n도전하다.'},
+    {jp:'きかい',r:'kikai',kr:'기회',ex:'きかいをつかむ。\n기회를 잡다.'},
+    {jp:'チャンス',r:'chansu',kr:'찬스',ex:'チャンスをいかす。\n찬스를 살리다.'},
+    {jp:'りすく',r:'risuku',kr:'위험 / 리스크',ex:'りすくをへらす。\n리스크를 줄이다.'},
+    {jp:'かのうせい',r:'kanousei',kr:'가능성',ex:'かのうせいがある。\n가능성이 있다.'},
+    {jp:'ふかのう',r:'fukanou',kr:'불가능',ex:'ふかのうではない。\n불가능하지 않다.'},
+    {jp:'ひつよう',r:'hitsuyou',kr:'필요',ex:'ひつようがある。\n필요가 있다.'},
+    {jp:'ふひつよう',r:'fuhitsuyou',kr:'불필요',ex:'ふひつようなもの。\n불필요한 것.'},
+    {jp:'じゅうよう',r:'juuyou',kr:'중요',ex:'じゅうようなこと。\n중요한 것.'},
+    {jp:'たいせつ',r:'taisetsu',kr:'소중',ex:'たいせつなひと。\n소중한 사람.'},
+    {jp:'きほん',r:'kihon',kr:'기본',ex:'きほんをまなぶ。\n기본을 배우다.'},
+    {jp:'おうよう',r:'ouyou',kr:'응용',ex:'おうようする。\n응용하다.'},
+    {jp:'じっせん',r:'jissen',kr:'실전',ex:'じっせんでつかう。\n실전에서 쓰다.'},
+    {jp:'れんしゅう',r:'renshuu',kr:'연습',ex:'れんしゅうする。\n연습하다.'},
+    {jp:'くんれん',r:'kunren',kr:'훈련',ex:'くんれんをうける。\n훈련을 받다.'},
+    {jp:'しどう',r:'shidou',kr:'지도',ex:'しどうをうける。\n지도를 받다.'},
+    {jp:'アドバイス',r:'adobaisu',kr:'조언',ex:'アドバイスをもらう。\n조언을 받다.'},
+    {jp:'ていあん',r:'teian',kr:'제안',ex:'ていあんする。\n제안하다.'},
+    {jp:'いけん',r:'iken',kr:'의견',ex:'いけんをいう。\n의견을 말하다.'},
+    {jp:'かんそう',r:'kansou',kr:'감상',ex:'かんそうをのべる。\n감상을 말하다.'},
+    {jp:'ひょうか',r:'hyouka',kr:'평가',ex:'ひょうかをする。\n평가하다.'},
+    {jp:'はんだん',r:'handan',kr:'판단',ex:'はんだんする。\n판단하다.'},
+    {jp:'けってい',r:'kettei',kr:'결정',ex:'けっていする。\n결정하다.'},
+    {jp:'せんたく',r:'sentaku',kr:'선택',ex:'せんたくする。\n선택하다.'},
+    {jp:'ゆうせん',r:'yuusen',kr:'우선',ex:'ゆうせんする。\n우선하다.'},
+  ],
+];
+
+// ── PHRASES PER LEVEL (no overlap)
+const LEVEL_PHRASES = [
+  // Level 1
+  [ {jp:'はい',r:'hai',kr:'네',note:'긍정·맞장구'},
+    {jp:'いいえ',r:'iie',kr:'아니요',note:'부정'},
+    {jp:'おはよう',r:'ohayou',kr:'좋은 아침 (반말)',note:'친한 사이 아침 인사'},
+    {jp:'ありがとう',r:'arigatou',kr:'고마워 (반말)',note:'친한 사이 감사 표현'},
+    {jp:'ごめんね',r:'gomen ne',kr:'미안해 (반말)',note:'친한 사이 사과'},
+    {jp:'またね',r:'mata ne',kr:'또 봐',note:'친한 사이 작별 인사'} ],
+
+  // Level 2
+  [ {jp:'おはようございます',r:'ohayou gozaimasu',kr:'좋은 아침입니다',note:'격식체 아침 인사'},
+    {jp:'こんにちは',r:'konnichiwa',kr:'안녕하세요 (낮)',note:'낮 시간대 인사'},
+    {jp:'こんばんは',r:'konbanwa',kr:'안녕하세요 (저녁)',note:'저녁 인사'},
+    {jp:'おやすみなさい',r:'oyasumi nasai',kr:'안녕히 주무세요',note:'잠자리 인사'},
+    {jp:'すみません',r:'sumimasen',kr:'실례합니다',note:'주의를 끌거나 사과할 때'},
+    {jp:'はじめまして',r:'hajimemashite',kr:'처음 뵙겠습니다',note:'첫 만남 인사'} ],
+
+  // Level 3
+  [ {jp:'これはなんですか',r:'kore wa nan desu ka',kr:'이것은 무엇인가요?',note:'사물을 물어볼 때'},
+    {jp:'〜はどこですか',r:'〜 wa doko desu ka',kr:'〜는 어디인가요?',note:'장소 물어볼 때'},
+    {jp:'いくらですか',r:'ikura desu ka',kr:'얼마예요?',note:'가격 물어볼 때'},
+    {jp:'なんじですか',r:'nanji desu ka',kr:'몇 시예요?',note:'시간 물어볼 때'},
+    {jp:'〜がすきです',r:'〜 ga suki desu',kr:'〜을/를 좋아합니다',note:'좋아하는 것 표현'},
+    {jp:'たべましょう',r:'tabemashou',kr:'먹읍시다',note:'~ましょう: 함께 하자는 표현'} ],
+
+  // Level 4
+  [ {jp:'〜をください',r:'〜 wo kudasai',kr:'〜을/를 주세요',note:'주문·요청 표현'},
+    {jp:'おすすめはなんですか',r:'osusume wa nan desu ka',kr:'추천은 뭔가요?',note:'식당·쇼핑에서'},
+    {jp:'ちょっとまってください',r:'chotto matte kudasai',kr:'잠깐만 기다려주세요',note:'기다림 요청'},
+    {jp:'もういちどいってください',r:'mou ichido itte kudasai',kr:'다시 한번 말씀해주세요',note:'재발화 요청'},
+    {jp:'わかりました',r:'wakarimashita',kr:'알겠습니다',note:'이해·수락 표현'},
+    {jp:'〜はどうですか',r:'〜 wa dou desu ka',kr:'〜은/는 어떠세요?',note:'의견 묻기'} ],
+
+  // Level 5
+  [ {jp:'おつかれさまでした',r:'otsukare sama deshita',kr:'수고하셨습니다',note:'업무·일과 마무리 시'},
+    {jp:'よろしくおねがいいたします',r:'yoroshiku onegai itashimasu',kr:'잘 부탁드립니다 (공손)',note:'격식체 부탁 표현'},
+    {jp:'〜ていただけますか',r:'〜 te itadakemasu ka',kr:'〜해 주실 수 있으신가요?',note:'정중한 부탁 표현'},
+    {jp:'かしこまりました',r:'kashikomarimashita',kr:'알겠습니다 (매우 공손)',note:'업무·서비스 상황에서'},
+    {jp:'おじゃまします',r:'ojama shimasu',kr:'실례하겠습니다',note:'남의 집·사무실 방문 시'},
+    {jp:'いただきます',r:'itadakimasu',kr:'잘 먹겠습니다',note:'식사 시작 전 인사'} ],
+];
+
+// ═══════════════════════════════════════════════════
+// PROGRESS STATE (localStorage)
+// ═══════════════════════════════════════════════════
+function loadProgress() {
+  try { return JSON.parse(localStorage.getItem('jpProgress')) || {}; } catch(e) { return {}; }
+}
+function saveProgress(p) { localStorage.setItem('jpProgress', JSON.stringify(p)); }
+
+let prog = loadProgress();
+if (!prog.unlockedLevel) prog.unlockedLevel = 1;
+if (!prog.bestScores) prog.bestScores = [0,0,0,0,0];
+if (!prog.cleared) prog.cleared = [false,false,false,false,false];
+saveProgress(prog);
+
+// current study level (can be any unlocked level)
+let studyLevel = prog.unlockedLevel; // 1-based
+
+// ═══════════════════════════════════════════════════
+// NAVIGATION
+// ═══════════════════════════════════════════════════
+function showSection(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+  if (id === 'quiz') { quizStarted = false; startQuiz(); }
+  if (id === 'kana') renderKanaSection();
+  if (id === 'flashcard') renderFlashcardSection();
+  if (id === 'conv') renderConvSection();
+}
+
+// ── Study Level Selector Bar (used in multiple sections)
+function makeLevelBar(containerId, onChange) {
+  const bar = document.getElementById(containerId);
+  bar.innerHTML = '<span class="study-level-label">공부 단계:</span>';
+  for (let i = 1; i <= 5; i++) {
+    const m = LEVEL_META[i-1];
+    const btn = document.createElement('button');
+    btn.className = 'slv-btn' + (i > prog.unlockedLevel ? ' locked' : ' unlocked') + (i === studyLevel ? ' active-lv' : '');
+    btn.textContent = (i > prog.unlockedLevel ? '🔒' : m.emoji) + ' ' + i + '단계';
+    btn.title = i > prog.unlockedLevel ? '이전 단계를 클리어해야 열려요' : m.name;
+    btn.onclick = () => { if (i > prog.unlockedLevel) { showToast('🔒 이전 단계를 클리어해야 열 수 있어요!'); return; } studyLevel = i; onChange(); };
+    bar.appendChild(btn);
+  }
+}
+
+// ── Update header
+function updateHeader() {
+  const m = LEVEL_META[studyLevel-1];
+  document.getElementById('headerLvEmoji').textContent = m.emoji;
+  document.getElementById('headerLvText').textContent = `${studyLevel}단계 · ${m.name}`;
+  const cleared = prog.cleared.filter(Boolean).length;
+  document.getElementById('headerProgressFill').style.width = (cleared / 5 * 100) + '%';
+}
+
+// ═══════════════════════════════════════════════════
+// 0. LEVEL MAP
+// ═══════════════════════════════════════════════════
+function renderLevelMap() {
+  const grid = document.getElementById('levelGrid');
+  grid.innerHTML = '';
+  LEVEL_META.forEach((m, idx) => {
+    const lv = idx + 1;
+    const locked = lv > prog.unlockedLevel;
+    const cleared = prog.cleared[idx];
+    const isCurrent = lv === prog.unlockedLevel && !cleared;
+    const words = LEVEL_WORDS[idx].length;
+    const phrases = LEVEL_PHRASES[idx].length;
+    const best = prog.bestScores[idx] || 0;
+
+    const card = document.createElement('div');
+    card.className = 'level-card ' + (locked ? 'locked' : 'unlocked') + (cleared ? ' cleared' : '') + (isCurrent ? ' active-level' : '');
+    card.innerHTML = `
+      <div class="level-card-bg">${m.emoji}</div>
+      <div class="level-card-header">
+        <div class="level-emoji">${locked ? '🔒' : m.emoji}</div>
+        <div class="level-info">
+          <div class="level-num">${lv}단계</div>
+          <div class="level-name">${m.name}</div>
+          <div class="level-sub">${m.subtitle}</div>
+        </div>
+        <div class="level-status ${locked?'status-locked':cleared?'status-cleared':isCurrent?'status-current':'status-unlocked'}">
+          ${locked ? '잠김' : cleared ? '✓ 클리어' : isCurrent ? '현재' : '도전 가능'}
+        </div>
+      </div>
+      ${!locked ? `
+      <div class="level-details">
+        <div class="level-detail-item">단어 <span>${words}개</span></div>
+        <div class="level-detail-item">회화 <span>${phrases}개</span></div>
+        <div class="level-detail-item">최고점 <span>${best}/10</span></div>
+      </div>
+      <div class="level-prog-row">
+        <div class="level-prog-bar">
+          <div class="level-prog-fill" style="width:${best/10*100}%;background:${m.color}"></div>
+        </div>
+        <div class="level-prog-text">${best}/10점</div>
+      </div>
+      ${!cleared ? `<button class="btn-start-level" onclick="goStudyLevel(${lv})" style="background:${m.grad};color:#3d2c3e">
+        ${isCurrent ? '지금 공부하기 →' : '이 단계 공부하기 →'}
+      </button>` : ''}
+      ` : ''}
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function goStudyLevel(lv) {
+  studyLevel = lv;
+  updateHeader();
+  // Switch to quiz tab
+  const quizBtn = document.querySelectorAll('.nav-btn')[3];
+  showSection('quiz', quizBtn);
+}
+
+// ═══════════════════════════════════════════════════
+// 1. KANA
+// ═══════════════════════════════════════════════════
+let currentKana = 'hiragana';
+let allRevealed = false;
+
+function renderKanaSection() {
+  makeLevelBar('kanaLevelBar', () => renderKanaSection());
+  updateHeader();
+  renderKanaGrid();
+}
+
+function switchKana(type, btn) {
+  currentKana = type;
+  document.querySelectorAll('.kana-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderKanaGrid();
+}
+
+function renderKanaGrid() {
+  allRevealed = false;
+  const container = document.getElementById('kanaContent');
+  container.innerHTML = '';
+  const kd = KANA_GROUPS[studyLevel-1];
+  const kanaArr = currentKana === 'hiragana' ? kd.hira : kd.kata;
+  
+  const label = document.createElement('div');
+  label.className = 'kana-group-label';
+  label.textContent = kd.label;
+  container.appendChild(label);
+
+  const grid = document.createElement('div');
+  grid.className = 'kana-grid';
+  kanaArr.forEach(k => {
+    const card = document.createElement('div');
+    card.className = 'kana-card';
+    card.innerHTML = `<span class="kana-char">${k.c}</span><span class="kana-roman">${k.r}</span>`;
+    card.onclick = () => card.classList.toggle('revealed');
+    grid.appendChild(card);
+  });
+  container.appendChild(grid);
+}
+
+function toggleRevealAll() {
+  allRevealed = !allRevealed;
+  const cards = document.querySelectorAll('.kana-card');
+  cards.forEach(c => allRevealed ? c.classList.add('revealed') : c.classList.remove('revealed'));
+}
+
+// ═══════════════════════════════════════════════════
+// 2. FLASHCARD
+// ═══════════════════════════════════════════════════
+let fcWords = [], fcIndex = 0, fcAll = false;
+
+function renderFlashcardSection() {
+  fcAll = false;
+  makeLevelBar('fcLevelBar', () => { fcAll = false; renderFlashcardSection(); });
+  updateHeader();
+  fcWords = [...LEVEL_WORDS[studyLevel-1]];
+  fcIndex = 0;
+  showFlashcard();
+}
+
+function showFlashcard() {
+  if (fcWords.length === 0) return;
+  const w = fcWords[fcIndex];
+  document.getElementById('fcLevelTag').textContent = studyLevel + '단계';
+  document.getElementById('fcLevelTagBack').textContent = studyLevel + '단계';
+  document.getElementById('fcJp').textContent = w.jp;
+  document.getElementById('fcReading').textContent = w.r;
+  document.getElementById('fcMeaning').textContent = w.kr;
+  document.getElementById('fcExample').innerHTML = w.ex.replace(/\n/g, '<br>');
+  document.getElementById('fcCounter').textContent = `${fcIndex+1} / ${fcWords.length}`;
+  document.getElementById('flashcardInner').classList.remove('flipped');
+}
+
+function flipCard() {
+  document.getElementById('flashcardInner').classList.toggle('flipped');
+}
+
+function prevCard() {
+  fcIndex = (fcIndex - 1 + fcWords.length) % fcWords.length;
+  showFlashcard();
+}
+
+function nextCard() {
+  fcIndex = (fcIndex + 1) % fcWords.length;
+  showFlashcard();
+}
+
+function shuffleFlashcards() {
+  shuffleArray(fcWords);
+  fcIndex = 0;
+  showFlashcard();
+  showToast('🔀 카드를 섞었어요!');
+}
+
+function toggleAllLevels() {
+  fcAll = !fcAll;
+  if (fcAll) {
+    fcWords = [];
+    for (let i = 0; i < prog.unlockedLevel; i++) fcWords = fcWords.concat(LEVEL_WORDS[i]);
+    shuffleArray(fcWords);
+    showToast('🌟 모든 단계 단어를 보여줘요!');
+  } else {
+    fcWords = [...LEVEL_WORDS[studyLevel-1]];
+    showToast(`${LEVEL_META[studyLevel-1].emoji} ${studyLevel}단계 단어만 보여줘요!`);
+  }
+  fcIndex = 0;
+  showFlashcard();
+}
+
+function shuffleArray(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+// ═══════════════════════════════════════════════════
+// 3. QUIZ
+// ═══════════════════════════════════════════════════
+let quizStarted = false, quizQuestions = [], quizCurrent = 0, quizScore = 0, quizAnswered = false;
+const QUIZ_TOTAL = 10, QUIZ_PASS = 7;
+
+function startQuiz() {
+  quizStarted = true;
+  quizScore = 0; quizCurrent = 0; quizAnswered = false;
+  makeLevelBar('quizLevelBar', () => { quizStarted = false; startQuiz(); });
+  updateHeader();
+
+  const words = LEVEL_WORDS[studyLevel-1];
+  const kanaData = KANA_GROUPS[studyLevel-1].hira;
+  const pool = [];
+
+  words.forEach(w => pool.push({
+    type:'word', q:w.jp, sub:w.r, label:'다음 일본어의 뜻은?',
+    answer:w.kr, pool:words.map(x=>x.kr)
+  }));
+  kanaData.slice(0, Math.min(10, kanaData.length)).forEach(k => pool.push({
+    type:'kana', q:k.c, sub:'', label:'이 가나의 읽는 법은?',
+    answer:k.r, pool:kanaData.map(x=>x.r)
+  }));
+
+  shuffleArray(pool);
+  quizQuestions = pool.slice(0, QUIZ_TOTAL);
+
+  const passInd = document.getElementById('quizPassInd');
+  passInd.textContent = `${QUIZ_PASS}점 이상 → ${studyLevel}단계 클리어!`;
+  passInd.className = 'quiz-pass-indicator' + (!prog.cleared[studyLevel-1] ? ' reachable' : '');
+
+  document.getElementById('quizGame').style.display = 'block';
+  document.getElementById('quizResult').style.display = 'none';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const q = quizQuestions[quizCurrent];
+  quizAnswered = false;
+  document.getElementById('quizScore').textContent = `점수: ${quizScore}`;
+  const pct = quizCurrent / QUIZ_TOTAL;
+  document.getElementById('quizProgressFill').style.width = `${pct*100}%`;
+  document.getElementById('quizLabel').textContent = q.label;
+  document.getElementById('quizQuestion').textContent = q.q;
+  document.getElementById('quizQuestionSub').textContent = q.sub;
+  document.getElementById('quizFeedback').textContent = '';
+  document.getElementById('quizFeedback').className = 'quiz-feedback';
+  document.getElementById('btnNextQ').disabled = true;
+  document.getElementById('btnNextQ').textContent = '다음 문제 →';
+
+  const wrongPool = [...new Set(q.pool.filter(x => x !== q.answer))];
+  shuffleArray(wrongPool);
+  const opts = shuffleArray([q.answer, ...wrongPool.slice(0,3)]);
+
+  const container = document.getElementById('quizOptions');
+  container.innerHTML = '';
+  opts.forEach(opt => {
+    const btn = document.createElement('button');
+    btn.className = 'quiz-opt';
+    btn.textContent = opt;
+    btn.onclick = () => checkAnswer(opt, q.answer, btn);
+    container.appendChild(btn);
+  });
+}
+
+function checkAnswer(selected, correct, btn) {
+  if (quizAnswered) return;
+  quizAnswered = true;
+  document.querySelectorAll('.quiz-opt').forEach(b => {
+    b.disabled = true;
+    if (b.textContent === correct) b.classList.add('correct');
+  });
+  const fb = document.getElementById('quizFeedback');
+  if (selected === correct) {
+    quizScore++;
+    btn.classList.add('correct');
+    fb.textContent = '🎉 정답이에요!';
+    fb.className = 'quiz-feedback correct';
+  } else {
+    btn.classList.add('wrong');
+    fb.textContent = `❌ 오답! 정답은 "${correct}" 이에요.`;
+    fb.className = 'quiz-feedback wrong';
+  }
+  document.getElementById('quizScore').textContent = `점수: ${quizScore}`;
+  document.getElementById('btnNextQ').disabled = false;
+  if (quizCurrent === QUIZ_TOTAL-1) document.getElementById('btnNextQ').textContent = '결과 보기 🌸';
+}
+
+function nextQuestion() {
+  quizCurrent++;
+  if (quizCurrent >= QUIZ_TOTAL) showQuizResult();
+  else renderQuestion();
+}
+
+function showQuizResult() {
+  document.getElementById('quizProgressFill').style.width = '100%';
+  document.getElementById('quizGame').style.display = 'none';
+  const resultDiv = document.getElementById('quizResult');
+  resultDiv.style.display = 'block';
+
+  const passed = quizScore >= QUIZ_PASS;
+  const prevBest = prog.bestScores[studyLevel-1] || 0;
+  if (quizScore > prevBest) prog.bestScores[studyLevel-1] = quizScore;
+
+  let levelCleared = false;
+  if (passed && !prog.cleared[studyLevel-1]) {
+    prog.cleared[studyLevel-1] = true;
+    if (studyLevel < 5 && prog.unlockedLevel < studyLevel+1) {
+      prog.unlockedLevel = studyLevel+1;
+    }
+    levelCleared = true;
+  }
+  saveProgress(prog);
+  updateHeader();
+  renderLevelMap();
+
+  const pct = quizScore / QUIZ_TOTAL;
+  let emoji, msg;
+  if (pct === 1)      { emoji='🏆'; msg='완벽해요! 素晴らしい！'; }
+  else if (pct>=0.8)  { emoji='🌸'; msg='아주 잘했어요!'; }
+  else if (pct>=0.6)  { emoji='😊'; msg='잘했어요! 조금만 더 연습해봐요.'; }
+  else if (pct>=0.4)  { emoji='💪'; msg='아직 부족해요. 다시 도전해봐요!'; }
+  else                { emoji='📚'; msg='がんばって！ 더 공부해봐요!'; }
+
+  let clearBanner = '';
+  if (levelCleared) {
+    const next = LEVEL_META[studyLevel];
+    clearBanner = `<div class="level-clear-banner">🎊 ${studyLevel}단계 클리어! ${next ? next.emoji+' '+(studyLevel+1)+'단계 '+next.name+'이 열렸어요!' : '모든 단계를 완료했어요! 축하해요!'}</div>`;
+  } else if (!passed) {
+    clearBanner = `<div style="background:#fff0f5;border:2px solid var(--pink);border-radius:12px;padding:10px 14px;margin:10px 0;font-size:13px;color:var(--pink-dark)">
+      💡 ${QUIZ_PASS}점 이상이면 다음 단계가 열려요. 조금만 더 연습해봐요!
+    </div>`;
+  }
+
+  const nextLvBtn = (levelCleared && studyLevel < 5)
+    ? `<button class="btn-next-level" onclick="goStudyLevel(${studyLevel+1})">다음 단계 도전 ${LEVEL_META[studyLevel].emoji}</button>`
+    : '';
+
+  resultDiv.innerHTML = `
+    <div class="quiz-result">
+      <div class="emoji">${emoji}</div>
+      <h3>퀴즈 완료! ${LEVEL_META[studyLevel-1].emoji} ${studyLevel}단계</h3>
+      <div class="final-score">${quizScore} / ${QUIZ_TOTAL}</div>
+      <p>${msg}</p>
+      ${clearBanner}
+      <div class="quiz-result-btns">
+        <button class="btn-restart" onclick="startQuiz()">다시 도전 🌸</button>
+        ${nextLvBtn}
+      </div>
+    </div>
+  `;
+}
+
+// ═══════════════════════════════════════════════════
+// 4. CONVERSATION
+// ═══════════════════════════════════════════════════
+let currentConvLv = 1;
+
+function renderConvSection() {
+  currentConvLv = studyLevel;
+  makeLevelBar('convLevelBar', () => { currentConvLv = studyLevel; renderConvSection(); });
+  renderConvLevelTabs();
+  renderPhrases();
+  updateHeader();
+}
+
+function renderConvLevelTabs() {
+  const tabs = document.getElementById('convCatTabs');
+  tabs.innerHTML = '';
+  for (let i = 1; i <= prog.unlockedLevel; i++) {
+    const m = LEVEL_META[i-1];
+    const btn = document.createElement('button');
+    btn.className = 'conv-cat-btn' + (i === currentConvLv ? ' active' : '');
+    btn.textContent = `${m.emoji} ${i}단계`;
+    btn.onclick = () => { currentConvLv = i; renderConvLevelTabs(); renderPhrases(); };
+    tabs.appendChild(btn);
+  }
+}
+
+function renderPhrases() {
+  const list = document.getElementById('phraseList');
+  list.innerHTML = '';
+  const phrases = LEVEL_PHRASES[currentConvLv-1];
+  phrases.forEach(p => {
+    const card = document.createElement('div');
+    card.className = 'phrase-card';
+    card.innerHTML = `
+      <span class="speak-icon">🔊</span>
+      <div class="phrase-lv-tag">${LEVEL_META[currentConvLv-1].emoji} ${currentConvLv}단계</div>
+      <div class="phrase-jp">${p.jp}</div>
+      <div class="phrase-reading">${p.r}</div>
+      <div class="phrase-kr">${p.kr}</div>
+      ${p.note ? `<div class="phrase-note">💡 ${p.note}</div>` : ''}
+    `;
+    card.onclick = () => speak(p.jp);
+    list.appendChild(card);
+  });
+}
+
+function speak(text) {
+  if ('speechSynthesis' in window) {
+    const utt = new SpeechSynthesisUtterance(text);
+    utt.lang = 'ja-JP'; utt.rate = 0.85;
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utt);
+  }
+}
+
+// ── TOAST ──
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+// ── INIT ──
+updateHeader();
+renderLevelMap();
+</script>
+
+
+</body></html>
